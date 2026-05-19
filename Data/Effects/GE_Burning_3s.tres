@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="GameplayEffect" format=3 uid="uid://dm4laauvgxra6"]
+
+[ext_resource type="Script" uid="uid://lol3nsneifiw" path="res://Script/GAS/GameplayEffect.gd" id="1_ge"]
+[ext_resource type="Script" uid="uid://dugmfu7vnld17" path="res://Script/GAS/AttributeModifier.gd" id="2_mod"]
+
+[sub_resource type="Resource" id="Mod_burn"]
+script = ExtResource("2_mod")
+attribute = &"health"
+magnitude = -5.0
+
+[resource]
+script = ExtResource("1_ge")
+effect_type = 2
+modifiers = Array[ExtResource("2_mod")]([SubResource("Mod_burn")])
+duration = 3.0
+granted_tags = Array[StringName]([&"state.debuff.burning"])
+display_name = "Burning(-5/s, 3s)"

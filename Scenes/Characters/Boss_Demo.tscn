@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://dm4laauqqqjmo"]
+
+[ext_resource type="Script" uid="uid://d1wnrk7dlurwt" path="res://Script/Character/EnemyCharacter.gd" id="1_ec"]
+[ext_resource type="Script" uid="uid://tprf4fxhih8m" path="res://Script/Character/Components/MoveComponent.gd" id="2_move"]
+[ext_resource type="Script" uid="uid://226s84a1372y" path="res://Script/GAS/Ability.gd" id="2_pq82u"]
+[ext_resource type="Script" uid="uid://qoqjsfp6vwgw" path="res://Script/Character/Components/AnimationComponent.gd" id="3_anim"]
+[ext_resource type="Script" uid="uid://4e6ngal1xkld" path="res://Script/Character/Components/HitboxComponent.gd" id="4_hit"]
+[ext_resource type="Script" uid="uid://dqbw352030tkx" path="res://Script/Character/Components/HurtboxComponent.gd" id="5_hurt"]
+[ext_resource type="Script" uid="uid://2xjhxmfmkbrn" path="res://Script/AI/BossAI.gd" id="6_bossai"]
+[ext_resource type="Script" uid="uid://c0m2bwt7ggy16" path="res://Script/GAS/AbilitySystemComponent.gd" id="7_asc"]
+[ext_resource type="Resource" uid="uid://dm4laaupdxra5" path="res://Data/Abilities/Ability_BossBasicAttack.tres" id="9_ab"]
+
+[sub_resource type="Animation" id="Animation_kie8x"]
+resource_name = "new_animation"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pq82u"]
+_data = {
+&"new_animation": SubResource("Animation_kie8x")
+}
+
+[sub_resource type="Animation" id="Animation_40uum"]
+resource_name = "new_animation"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pl8lt"]
+_data = {
+&"new_animation": SubResource("Animation_40uum")
+}
+
+[sub_resource type="CircleShape2D" id="HitShape"]
+radius = 64.0
+
+[sub_resource type="RectangleShape2D" id="HurtShape"]
+size = Vector2(80, 80)
+
+[node name="Boss" type="CharacterBody2D" unique_id=1136515277]
+script = ExtResource("1_ec")
+entity_id = &"boss_demo_lv1"
+startup_ability_set = Array[ExtResource("2_pq82u")]([ExtResource("9_ab")])
+
+[node name="Visual" type="ColorRect" parent="." unique_id=74269110]
+offset_left = -40.0
+offset_top = -40.0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.7, 0.2, 0.8, 1)
+
+[node name="AnimationTree" type="AnimationTree" parent="Visual" unique_id=1979256741]
+libraries/ = SubResource("AnimationLibrary_pq82u")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Visual" unique_id=365507832]
+libraries/ = SubResource("AnimationLibrary_pl8lt")
+
+[node name="MoveComponent" type="Node" parent="." unique_id=1867942412]
+script = ExtResource("2_move")
+max_speed = 100.0
+
+[node name="AnimationComponent" type="Node" parent="." unique_id=1622324192]
+script = ExtResource("3_anim")
+
+[node name="HitboxComponent" type="Area2D" parent="." unique_id=661903610]
+collision_layer = 16
+collision_mask = 2
+script = ExtResource("4_hit")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent" unique_id=1635463641]
+shape = SubResource("HitShape")
+
+[node name="HurtboxComponent" type="Area2D" parent="." unique_id=1945354386]
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("5_hurt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=1784719124]
+shape = SubResource("HurtShape")
+
+[node name="AIController" type="Node" parent="." unique_id=1808178452]
+script = ExtResource("6_bossai")
+detect_range = 320.0
+attack_range = 80.0
+hit_stun = 0.25
+
+[node name="AbilitySystemComponent" type="Node" parent="." unique_id=1380394402]
+script = ExtResource("7_asc")

@@ -1,0 +1,193 @@
+[gd_scene load_steps=4 format=3 uid="uid://c7m7skilleditor01"]
+
+[ext_resource type="Script" path="res://addons/skill_editor/dock/SkillEditorDock.gd" id="1_dock"]
+[ext_resource type="Script" path="res://addons/skill_editor/dock/TimelineView.gd" id="2_view"]
+[ext_resource type="Script" path="res://addons/skill_editor/dock/preview/PreviewStage.gd" id="3_preview"]
+
+[node name="SkillEditorDock" type="VBoxContainer"]
+custom_minimum_size = Vector2(0, 480)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dock")
+
+[node name="Toolbar" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="BtnNew" type="Button" parent="Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "New"
+
+[node name="BtnOpen" type="Button" parent="Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Open"
+
+[node name="BtnSave" type="Button" parent="Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Save"
+
+[node name="VSep1" type="VSeparator" parent="Toolbar"]
+layout_mode = 2
+
+[node name="DurationLabel" type="Label" parent="Toolbar"]
+layout_mode = 2
+text = "Duration"
+
+[node name="DurationSpin" type="SpinBox" parent="Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 0.05
+max_value = 30.0
+step = 0.05
+value = 1.0
+
+[node name="VSep2" type="VSeparator" parent="Toolbar"]
+layout_mode = 2
+
+[node name="BtnPlay" type="Button" parent="Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "▶ Play"
+
+[node name="BtnPause" type="Button" parent="Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "⏸ Pause"
+
+[node name="BtnReset" type="Button" parent="Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "⏮ Reset"
+
+[node name="LoopCheck" type="CheckBox" parent="Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Loop"
+
+[node name="VSep3" type="VSeparator" parent="Toolbar"]
+layout_mode = 2
+
+[node name="MuteCheck" type="CheckBox" parent="Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Mute SFX"
+
+[node name="BtnZoomOut" type="Button" parent="Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "−"
+tooltip_text = "Preview zoom out"
+
+[node name="BtnZoomIn" type="Button" parent="Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "+"
+tooltip_text = "Preview zoom in"
+
+[node name="BtnCamReset" type="Button" parent="Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "⌂"
+tooltip_text = "Reset preview camera"
+
+[node name="ShowHitboxBandCheck" type="CheckBox" parent="Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Hitbox Band"
+button_pressed = true
+
+[node name="VSep4" type="VSeparator" parent="Toolbar"]
+layout_mode = 2
+
+[node name="ToolbarLabel" type="Label" parent="Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "—"
+
+[node name="MainSplit" type="HSplitContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+split_offset = 200
+
+[node name="LeftPanel" type="VBoxContainer" parent="MainSplit"]
+layout_mode = 2
+
+[node name="LeftLabel" type="Label" parent="MainSplit/LeftPanel"]
+layout_mode = 2
+text = "Tracks"
+
+[node name="BtnAddAnimTrack" type="Button" parent="MainSplit/LeftPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "+ Animation Track"
+
+[node name="BtnAddEventTrack" type="Button" parent="MainSplit/LeftPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "+ Event Track"
+
+[node name="TrackList" type="ItemList" parent="MainSplit/LeftPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CenterRightSplit" type="HSplitContainer" parent="MainSplit"]
+layout_mode = 2
+size_flags_horizontal = 3
+split_offset = -260
+
+[node name="CenterColumn" type="VSplitContainer" parent="MainSplit/CenterRightSplit"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+split_offset = 220
+
+[node name="PreviewStage" type="Control" parent="MainSplit/CenterRightSplit/CenterColumn"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 220)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("3_preview")
+
+[node name="TimelineView" type="Control" parent="MainSplit/CenterRightSplit/CenterColumn"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 180)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 2
+script = ExtResource("2_view")
+
+[node name="EmptyHint" type="Label" parent="MainSplit/CenterRightSplit/CenterColumn/TimelineView"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -10.0
+offset_right = 180.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "No timeline open. Click New / Open in toolbar."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RightPanel" type="ScrollContainer" parent="MainSplit/CenterRightSplit"]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+
+[node name="InspectorRoot" type="VBoxContainer" parent="MainSplit/CenterRightSplit/RightPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3

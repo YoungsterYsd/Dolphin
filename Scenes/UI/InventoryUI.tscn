@@ -1,0 +1,122 @@
+[gd_scene format=3 uid="uid://drldoxyginvui"]
+
+[ext_resource type="Script" path="res://Script/UI/InventoryUI.gd" id="1_inv"]
+
+[node name="InventoryUI" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.0
+offset_top = -200.0
+offset_right = 240.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_inv")
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Margin" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="Panel/Margin/VBox"]
+layout_mode = 2
+text = "背包 (按 I 关闭)"
+horizontal_alignment = 1
+
+[node name="EquipRow" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="WeaponSlot" type="Button" parent="Panel/Margin/VBox/EquipRow"]
+custom_minimum_size = Vector2(140, 56)
+layout_mode = 2
+text = "武器"
+
+[node name="Label" type="Label" parent="Panel/Margin/VBox/EquipRow/WeaponSlot"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -60.0
+offset_top = -18.0
+offset_right = 60.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "（空）"
+horizontal_alignment = 1
+mouse_filter = 2
+
+[node name="ArmorSlot" type="Button" parent="Panel/Margin/VBox/EquipRow"]
+custom_minimum_size = Vector2(140, 56)
+layout_mode = 2
+text = "防具"
+
+[node name="Label" type="Label" parent="Panel/Margin/VBox/EquipRow/ArmorSlot"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -60.0
+offset_top = -18.0
+offset_right = 60.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "（空）"
+horizontal_alignment = 1
+mouse_filter = 2
+
+[node name="AccessorySlot" type="Button" parent="Panel/Margin/VBox/EquipRow"]
+custom_minimum_size = Vector2(140, 56)
+layout_mode = 2
+text = "饰品"
+
+[node name="Label" type="Label" parent="Panel/Margin/VBox/EquipRow/AccessorySlot"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -60.0
+offset_top = -18.0
+offset_right = 60.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "（空）"
+horizontal_alignment = 1
+mouse_filter = 2
+
+[node name="HSep" type="HSeparator" parent="Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="InvGrid" type="GridContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+columns = 4
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4

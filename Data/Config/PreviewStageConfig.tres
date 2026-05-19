@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="PreviewStageConfig" format=3 uid="uid://d0jokpi205xd0"]
+
+[ext_resource type="Script" uid="uid://hhdwokn0vt1c" path="res://Script/Data/PreviewStageConfig.gd" id="1_cfg"]
+
+[resource]
+script = ExtResource("1_cfg")
+last_sprite_frames_path = "res://Data/Animations/SpriteFrames_Player.tres"

@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="SkillTimeline" format=3 uid="uid://crp1vwu3b7j0e"]
+
+[ext_resource type="Script" path="res://Script/SkillSystem/SkillTimeline.gd" id="1_timeline"]
+[ext_resource type="Script" path="res://Script/SkillSystem/Tracks/EventTrack.gd" id="2_eventtrack"]
+[ext_resource type="Script" path="res://Script/SkillSystem/Keyframes/EventKeyframe.gd" id="3_eventkf"]
+
+[sub_resource type="Resource" id="EvKf_HitboxEnable"]
+script = ExtResource("3_eventkf")
+time = 0.05
+kind = &"hitbox_enable"
+payload = {"damage_node_index": 0}
+
+[sub_resource type="Resource" id="EvKf_HitboxDisable"]
+script = ExtResource("3_eventkf")
+time = 0.25
+kind = &"hitbox_disable"
+payload = {}
+
+[sub_resource type="Resource" id="EvKf_CameraShake"]
+script = ExtResource("3_eventkf")
+time = 0.06
+kind = &"camera_shake"
+payload = {"intensity": 3.0, "duration": 0.1}
+
+[sub_resource type="Resource" id="EventTrack_main"]
+script = ExtResource("2_eventtrack")
+track_name = "Events"
+enabled = true
+keyframes = Array[Resource]([SubResource("EvKf_HitboxEnable"), SubResource("EvKf_CameraShake"), SubResource("EvKf_HitboxDisable")])
+
+[resource]
+script = ExtResource("1_timeline")
+skill_id = &"player_basic_attack"
+duration = 0.3
+tracks = Array[Resource]([SubResource("EventTrack_main")])

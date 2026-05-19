@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="HealthBarConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Script/Data/HealthBarConfig.gd" id="1_cfg"]
+
+[resource]
+script = ExtResource("1_cfg")
+boss_layer_step = 500
+boss_ghost_chase_delay = 0.3
+boss_ghost_chase_speed = 200.0
+boss_main_color = Color(0.85, 0.20, 0.20, 1)
+boss_ghost_color = Color(0.95, 0.85, 0.30, 1)
+overhead_show_distance = 600.0
+overhead_y_offset = -40.0
+overhead_bar_size = Vector2(48, 6)
+overhead_bg_color = Color(0.05, 0.05, 0.05, 0.7)
+overhead_fill_color = Color(0.85, 0.25, 0.25, 0.95)
+overhead_fill_color_elite = Color(0.95, 0.55, 0.20, 0.95)
+overhead_auto_hide_when_full_seconds = 3.0

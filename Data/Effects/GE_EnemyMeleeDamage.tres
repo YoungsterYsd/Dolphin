@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="GameplayEffect" format=3 uid="uid://dm4laauvgxra7"]
+
+[ext_resource type="Script" uid="uid://lol3nsneifiw" path="res://Script/GAS/GameplayEffect.gd" id="1_ge"]
+[ext_resource type="Script" uid="uid://dugmfu7vnld17" path="res://Script/GAS/AttributeModifier.gd" id="2_mod"]
+
+[sub_resource type="Resource" id="Mod_dmg"]
+script = ExtResource("2_mod")
+attribute = &"health"
+magnitude = -8.0
+
+[resource]
+script = ExtResource("1_ge")
+modifiers = Array[ExtResource("2_mod")]([SubResource("Mod_dmg")])
+application_blocked_tags = Array[StringName]([&"state.invulnerable"])
+display_name = "EnemyMeleeDamage(-8 HP)"

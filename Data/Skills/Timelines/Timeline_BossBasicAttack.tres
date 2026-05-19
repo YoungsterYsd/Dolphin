@@ -1,0 +1,45 @@
+[gd_resource type="Resource" script_class="SkillTimeline" format=3 uid="uid://dqpj84gc5ric8"]
+
+[ext_resource type="Script" uid="uid://bdjelutb68xlj" path="res://Script/SkillSystem/SkillTimeline.gd" id="1_timeline"]
+[ext_resource type="Script" uid="uid://c4q0bh8tmypah" path="res://Script/SkillSystem/Tracks/EventTrack.gd" id="2_eventtrack"]
+[ext_resource type="Script" uid="uid://dtdat4lg72nnw" path="res://Script/SkillSystem/SkillTrack.gd" id="2_ofptm"]
+[ext_resource type="Script" uid="uid://5g5r67ypf5pg" path="res://Script/SkillSystem/Keyframes/EventKeyframe.gd" id="3_eventkf"]
+[ext_resource type="Script" uid="uid://dwd1im7fn72go" path="res://Script/SkillSystem/Keyframes/AnimationKeyframe.gd" id="5_lrylc"]
+[ext_resource type="Script" uid="uid://21toxg7lbk8h" path="res://Script/SkillSystem/Tracks/AnimationTrack.gd" id="6_pppv3"]
+
+[sub_resource type="Resource" id="EvKf_HitboxEnable"]
+script = ExtResource("3_eventkf")
+kind = &"hitbox_enable"
+payload = {
+"damage_node_index": 0
+}
+time = 0.15
+
+[sub_resource type="Resource" id="EvKf_CameraShake"]
+script = ExtResource("3_eventkf")
+kind = &"camera_shake"
+payload = {
+"duration": 0.18,
+"intensity": 6.0
+}
+time = 0.16
+
+[sub_resource type="Resource" id="EvKf_HitboxDisable"]
+script = ExtResource("3_eventkf")
+kind = &"projectile_spawn"
+time = 0.6
+
+[sub_resource type="Resource" id="EventTrack_main"]
+script = ExtResource("2_eventtrack")
+keyframes = Array[ExtResource("3_eventkf")]([SubResource("EvKf_HitboxEnable"), SubResource("EvKf_CameraShake"), SubResource("EvKf_HitboxDisable")])
+track_name = "Events"
+
+[sub_resource type="Resource" id="Resource_bsw20"]
+script = ExtResource("6_pppv3")
+track_name = "Animation Track 1"
+
+[resource]
+script = ExtResource("1_timeline")
+skill_id = &"boss_basic_attack"
+duration = 0.7000000000000001
+tracks = Array[ExtResource("2_ofptm")]([SubResource("EventTrack_main"), SubResource("Resource_bsw20")])

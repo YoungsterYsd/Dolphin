@@ -1,0 +1,67 @@
+[gd_resource type="Resource" script_class="SkillTimeline" load_steps=20 format=3 uid="uid://c7m7timelinetest01"]
+
+[ext_resource type="Script" path="res://Script/SkillSystem/SkillTimeline.gd" id="1_timeline"]
+[ext_resource type="Script" path="res://Script/SkillSystem/Tracks/AnimationTrack.gd" id="2_animtrack"]
+[ext_resource type="Script" path="res://Script/SkillSystem/Tracks/EventTrack.gd" id="3_eventtrack"]
+[ext_resource type="Script" path="res://Script/SkillSystem/Keyframes/AnimationKeyframe.gd" id="4_animkf"]
+[ext_resource type="Script" path="res://Script/SkillSystem/Keyframes/EventKeyframe.gd" id="5_eventkf"]
+
+[sub_resource type="Resource" id="AnimKf_attack"]
+script = ExtResource("4_animkf")
+time = 0.0
+anim_name = &"attack"
+loop = false
+
+[sub_resource type="Resource" id="AnimTrack_main"]
+script = ExtResource("2_animtrack")
+track_name = "Animation"
+enabled = true
+keyframes = Array[Resource]([SubResource("AnimKf_attack")])
+
+[sub_resource type="Resource" id="EvKf_HitboxEnable"]
+script = ExtResource("5_eventkf")
+time = 0.15
+kind = &"hitbox_enable"
+payload = {"damage_node_index": 0}
+
+[sub_resource type="Resource" id="EvKf_SfxPlay"]
+script = ExtResource("5_eventkf")
+time = 0.18
+kind = &"sfx_play"
+payload = {"sfx_id": &"hit_test"}
+
+[sub_resource type="Resource" id="EvKf_HitboxDisable"]
+script = ExtResource("5_eventkf")
+time = 0.20
+kind = &"hitbox_disable"
+payload = {}
+
+[sub_resource type="Resource" id="EvKf_CameraShake"]
+script = ExtResource("5_eventkf")
+time = 0.25
+kind = &"camera_shake"
+payload = {"intensity": 4.0, "duration": 0.15}
+
+[sub_resource type="Resource" id="EvKf_HitStop"]
+script = ExtResource("5_eventkf")
+time = 0.30
+kind = &"hit_stop"
+payload = {"duration_ms": 80.0}
+
+[sub_resource type="Resource" id="EvKf_Custom"]
+script = ExtResource("5_eventkf")
+time = 0.35
+kind = &"custom_signal"
+payload = {"signal_name": &"test_signal", "data": {"foo": "bar"}}
+
+[sub_resource type="Resource" id="EventTrack_main"]
+script = ExtResource("3_eventtrack")
+track_name = "Events"
+enabled = true
+keyframes = Array[Resource]([SubResource("EvKf_HitboxEnable"), SubResource("EvKf_SfxPlay"), SubResource("EvKf_HitboxDisable"), SubResource("EvKf_CameraShake"), SubResource("EvKf_HitStop"), SubResource("EvKf_Custom")])
+
+[resource]
+script = ExtResource("1_timeline")
+skill_id = &"test_basic"
+duration = 0.5
+tracks = Array[Resource]([SubResource("AnimTrack_main"), SubResource("EventTrack_main")])

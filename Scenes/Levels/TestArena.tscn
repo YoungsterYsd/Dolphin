@@ -1,0 +1,154 @@
+[gd_scene format=3 uid="uid://c1q0572ixi53u"]
+
+[ext_resource type="PackedScene" uid="uid://c1q058ictuauu" path="res://Scenes/Characters/Player.tscn" id="1_player"]
+[ext_resource type="PackedScene" uid="uid://dm4laauwwbra3" path="res://Scenes/UI/HUD.tscn" id="2_hud"]
+[ext_resource type="Script" uid="uid://6622ryl5iiy4" path="res://Script/Camera/CameraRig.gd" id="3_cam"]
+[ext_resource type="PackedScene" uid="uid://c1q058lc2ia3u" path="res://Scenes/Characters/Enemy_Slime.tscn" id="4_slime"]
+[ext_resource type="Script" uid="uid://wlmafy23qhof" path="res://Scenes/Levels/test_arena.gd" id="5_arena"]
+[ext_resource type="Script" uid="uid://dc2lvp34llpu" path="res://Script/Items/PickupArea.gd" id="6_pickup"]
+[ext_resource type="Resource" uid="uid://c1q058bkxiv3u" path="res://Data/Items/Item_HealthPotion.tres" id="7_potion"]
+[ext_resource type="Resource" uid="uid://c1q058bkxiv3v" path="res://Data/Items/Item_IronSword.tres" id="8_sword"]
+[ext_resource type="Script" uid="uid://d1r8va7ftq1s" path="res://Script/Items/BossPortal.gd" id="9_portal"]
+[ext_resource type="Resource" uid="uid://c1q058em48aiu" path="res://Data/Levels/LevelDef_BossRoom_01.tres" id="10_boss_lvl"]
+[ext_resource type="PackedScene" uid="uid://drldoxyginvui" path="res://Scenes/UI/InventoryUI.tscn" id="11_invui"]
+[ext_resource type="PackedScene" uid="uid://c1q058h1foa3u" path="res://Scenes/UI/PauseMenu.tscn" id="12_pause"]
+
+[sub_resource type="CircleShape2D" id="PickupShape"]
+radius = 24.0
+
+[sub_resource type="RectangleShape2D" id="PortalShape"]
+size = Vector2(80, 80)
+
+[node name="TestArena" type="Node2D" unique_id=1493467328]
+script = ExtResource("5_arena")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1849714600]
+offset_left = -2000.0
+offset_top = -2000.0
+offset_right = 2000.0
+offset_bottom = 2000.0
+color = Color(0.13, 0.16, 0.18, 1)
+
+[node name="Player" parent="." unique_id=1652614734 instance=ExtResource("1_player")]
+position = Vector2(400, 400)
+
+[node name="CameraRig" type="Camera2D" parent="." unique_id=585629480]
+position = Vector2(400, 400)
+script = ExtResource("3_cam")
+
+[node name="Enemies" type="Node2D" parent="." unique_id=574521360]
+
+[node name="Slime1" parent="Enemies" unique_id=1962604181 instance=ExtResource("4_slime")]
+position = Vector2(700, 350)
+
+[node name="Slime2" parent="Enemies" unique_id=1293641066 instance=ExtResource("4_slime")]
+position = Vector2(750, 480)
+
+[node name="Slime3" parent="Enemies" unique_id=1307013395 instance=ExtResource("4_slime")]
+position = Vector2(820, 380)
+
+[node name="Pickups" type="Node2D" parent="." unique_id=810212146]
+
+[node name="PotionPickup" type="Area2D" parent="Pickups" unique_id=717105434]
+position = Vector2(280, 480)
+collision_layer = 32
+collision_mask = 2
+script = ExtResource("6_pickup")
+item = ExtResource("7_potion")
+count = 3
+
+[node name="Visual" type="ColorRect" parent="Pickups/PotionPickup" unique_id=1078576583]
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 12.0
+offset_bottom = 12.0
+color = Color(0.4, 0.9, 0.5, 1)
+
+[node name="Label" type="Label" parent="Pickups/PotionPickup" unique_id=1365561328]
+offset_left = -50.0
+offset_top = -36.0
+offset_right = 50.0
+offset_bottom = -16.0
+text = "药水 x3"
+horizontal_alignment = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pickups/PotionPickup" unique_id=1687720639]
+shape = SubResource("PickupShape")
+
+[node name="SwordPickup" type="Area2D" parent="Pickups" unique_id=1546372451]
+position = Vector2(280, 320)
+collision_layer = 32
+collision_mask = 2
+script = ExtResource("6_pickup")
+item = ExtResource("8_sword")
+
+[node name="Visual" type="ColorRect" parent="Pickups/SwordPickup" unique_id=436022089]
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 12.0
+offset_bottom = 12.0
+color = Color(0.85, 0.85, 0.9, 1)
+
+[node name="Label" type="Label" parent="Pickups/SwordPickup" unique_id=894934669]
+offset_left = -50.0
+offset_top = -36.0
+offset_right = 50.0
+offset_bottom = -16.0
+text = "铁剑"
+horizontal_alignment = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pickups/SwordPickup" unique_id=1159564243]
+shape = SubResource("PickupShape")
+
+[node name="BossPortal" type="Area2D" parent="." unique_id=41552289]
+position = Vector2(120, 400)
+collision_layer = 32
+collision_mask = 2
+script = ExtResource("9_portal")
+target_level = ExtResource("10_boss_lvl")
+
+[node name="Visual" type="ColorRect" parent="BossPortal" unique_id=1625262606]
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+color = Color(0.5, 0.3, 0.95, 0.85)
+
+[node name="Label" type="Label" parent="BossPortal" unique_id=840109375]
+offset_left = -64.0
+offset_top = -56.0
+offset_right = 64.0
+offset_bottom = -36.0
+text = "Boss 房传送"
+horizontal_alignment = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BossPortal" unique_id=198461498]
+shape = SubResource("PortalShape")
+
+[node name="HUDLayer" type="CanvasLayer" parent="." unique_id=846676167]
+
+[node name="HUD" parent="HUDLayer" unique_id=1917685487 instance=ExtResource("2_hud")]
+
+[node name="InventoryUI" parent="HUDLayer" unique_id=771128345 instance=ExtResource("11_invui")]
+visible = false
+
+[node name="PauseMenu" parent="HUDLayer" unique_id=1487945445 instance=ExtResource("12_pause")]
+
+[node name="GameOverLabel" type="Label" parent="HUDLayer" unique_id=260843613]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -40.0
+offset_right = 160.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "GAME OVER
+按 R 重开"
+horizontal_alignment = 1
+vertical_alignment = 1

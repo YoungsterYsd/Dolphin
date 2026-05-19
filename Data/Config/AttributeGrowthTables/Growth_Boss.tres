@@ -1,0 +1,49 @@
+[gd_resource type="Resource" script_class="AttributeGrowthTable" load_steps=12 format=3 uid="uid://c2m6gr0w7boss0"]
+
+[ext_resource type="Script" path="res://Script/Data/AttributeGrowthTable.gd" id="1_table"]
+[ext_resource type="Script" path="res://Script/Data/AttributeGrowthEntry.gd" id="2_entry"]
+[ext_resource type="Script" path="res://Script/Data/GrowthSegment.gd" id="3_seg"]
+
+[sub_resource type="Resource" id="Seg_HP_1"]
+script = ExtResource("3_seg")
+breakpoint_level = 10
+per_level_delta = 50.0
+
+[sub_resource type="Resource" id="Entry_MaxHP"]
+script = ExtResource("2_entry")
+attribute_name = &"max_health"
+base_value = 200.0
+segments = Array[Resource]([SubResource("Seg_HP_1")])
+
+[sub_resource type="Resource" id="Seg_Atk_1"]
+script = ExtResource("3_seg")
+breakpoint_level = 10
+per_level_delta = 2.0
+
+[sub_resource type="Resource" id="Entry_Atk"]
+script = ExtResource("2_entry")
+attribute_name = &"attack"
+base_value = 12.0
+segments = Array[Resource]([SubResource("Seg_Atk_1")])
+
+[sub_resource type="Resource" id="Seg_Def_1"]
+script = ExtResource("3_seg")
+breakpoint_level = 10
+per_level_delta = 1.0
+
+[sub_resource type="Resource" id="Entry_Def"]
+script = ExtResource("2_entry")
+attribute_name = &"defense"
+base_value = 4.0
+segments = Array[Resource]([SubResource("Seg_Def_1")])
+
+[sub_resource type="Resource" id="Entry_Spd"]
+script = ExtResource("2_entry")
+attribute_name = &"move_speed"
+base_value = 100.0
+segments = Array[Resource]([])
+
+[resource]
+script = ExtResource("1_table")
+id = &"growth_boss"
+entries = Array[Resource]([SubResource("Entry_MaxHP"), SubResource("Entry_Atk"), SubResource("Entry_Def"), SubResource("Entry_Spd")])

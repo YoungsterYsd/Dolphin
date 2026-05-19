@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="CharacterInstanceTable" load_steps=6 format=3 uid="uid://c6charinst0001"]
+
+[ext_resource type="Script" path="res://Script/Data/CharacterInstanceTable.gd" id="1_table"]
+[ext_resource type="Script" path="res://Script/Data/CharacterInstanceEntry.gd" id="2_entry"]
+
+[sub_resource type="Resource" id="Entry_SlimeLv1"]
+script = ExtResource("2_entry")
+id = &"slime_lv1"
+category = 0
+level = 1
+display_name = "Slime"
+move_speed_override = -1.0
+growth_table_id = &"growth_slime"
+ability_set = Array[Resource]([])
+
+[sub_resource type="Resource" id="Entry_SlimeEliteLv5"]
+script = ExtResource("2_entry")
+id = &"slime_elite_lv5"
+category = 1
+level = 5
+display_name = "Elite Slime"
+move_speed_override = 100.0
+growth_table_id = &"growth_slime"
+ability_set = Array[Resource]([])
+
+[sub_resource type="Resource" id="Entry_BossDemoLv1"]
+script = ExtResource("2_entry")
+id = &"boss_demo_lv1"
+category = 2
+level = 1
+display_name = "Boss Demo"
+move_speed_override = -1.0
+growth_table_id = &"growth_boss"
+ability_set = Array[Resource]([])
+
+[resource]
+script = ExtResource("1_table")
+entries = Array[Resource]([SubResource("Entry_SlimeLv1"), SubResource("Entry_SlimeEliteLv5"), SubResource("Entry_BossDemoLv1")])

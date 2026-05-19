@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="GameplayTagRegistry" format=3 uid="uid://dm4laavacera3"]
+
+[ext_resource type="Script" uid="uid://dhiluhsaj56ud" path="res://Script/GAS/Tags/GameplayTagRegistry.gd" id="1_reg"]
+
+[resource]
+script = ExtResource("1_reg")
+tags = Array[StringName]([&"state.alive", &"state.dead", &"state.stunned", &"state.silenced", &"state.rooted", &"state.invulnerable", &"state.buff.haste", &"state.buff.shield", &"state.debuff.burning", &"state.debuff.poisoned", &"ability.basic_attack", &"ability.skill.melee", &"ability.skill.ranged", &"ability.skill.aoe", &"ability.ultimate", &"ability.activating", &"ability.activating.basic_attack", &"damage.type.physical", &"damage.type.fire", &"damage.type.ice", &"damage.type.true", &"unit.player", &"unit.enemy", &"unit.boss"])

@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="SkillDamageTable" load_steps=5 format=3 uid="uid://c7m7damagetable001"]
+
+[ext_resource type="Script" path="res://Script/SkillSystem/SkillDamageTable.gd" id="1_table"]
+[ext_resource type="Script" path="res://Script/SkillSystem/DamageNode.gd" id="2_node"]
+
+[sub_resource type="Resource" id="DN_PlayerBasic_0"]
+script = ExtResource("2_node")
+damage_multiplier = 1.0
+extra_flat_damage = 0.0
+damage_type = &"damage.type.physical"
+apply_effects = Array[Resource]([])
+
+[sub_resource type="Resource" id="DN_EnemyBasic_0"]
+script = ExtResource("2_node")
+damage_multiplier = 1.0
+extra_flat_damage = 3.0
+damage_type = &"damage.type.physical"
+apply_effects = Array[Resource]([])
+
+[sub_resource type="Resource" id="DN_BossBasic_0"]
+script = ExtResource("2_node")
+damage_multiplier = 1.0
+extra_flat_damage = 3.0
+damage_type = &"damage.type.physical"
+apply_effects = Array[Resource]([])
+
+[resource]
+script = ExtResource("1_table")
+table = {
+&"player_basic_attack": [SubResource("DN_PlayerBasic_0")],
+&"enemy_basic_attack": [SubResource("DN_EnemyBasic_0")],
+&"boss_basic_attack": [SubResource("DN_BossBasic_0")],
+}

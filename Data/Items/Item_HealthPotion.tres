@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ConsumableDefinition" format=3 uid="uid://c1q058bkxiv3u"]
+
+[ext_resource type="Script" uid="uid://ckh0m82lgbu1c" path="res://Script/Items/ConsumableDefinition.gd" id="1_cons"]
+[ext_resource type="Resource" uid="uid://dm4laauvgxra8" path="res://Data/Effects/GE_Heal30.tres" id="2_eff"]
+
+[resource]
+script = ExtResource("1_cons")
+effect = ExtResource("2_eff")
+item_id = &"health_potion"
+display_name = "生命药水"
+description = "立即恢复 30 HP"
+max_stack = 5

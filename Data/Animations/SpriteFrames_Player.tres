@@ -1,0 +1,44 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://chc1fwbdwqnwj"]
+
+[ext_resource type="Texture2D" uid="uid://7quasxsaw0mt" path="res://Content/Sprites/Foxy.png" id="1_ouy1i"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sad63"]
+atlas = ExtResource("1_ouy1i")
+region = Rect2(0, 0, 33, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d4ywy"]
+atlas = ExtResource("1_ouy1i")
+region = Rect2(33, 0, 33, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_esl61"]
+atlas = ExtResource("1_ouy1i")
+region = Rect2(66, 0, 33, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bcijg"]
+atlas = ExtResource("1_ouy1i")
+region = Rect2(99, 0, 33, 32)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sad63")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d4ywy")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_esl61")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bcijg")
+}],
+"loop": true,
+"name": &"run",
+"speed": 12.0
+}]

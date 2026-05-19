@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="HitFeedbackConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Script/Data/HitFeedbackConfig.gd" id="1_cfg"]
+
+[resource]
+script = ExtResource("1_cfg")
+default_camera_shake_intensity = 4.0
+default_camera_shake_duration = 0.15
+default_camera_shake_frequency = 30.0
+default_hit_stop_ms = 80.0
+default_flash_color = Color(1, 1, 1, 1)
+default_flash_duration = 0.08
+default_zoom_punch_scale = 0.92
+default_zoom_punch_duration = 0.12
+damage_popup_normal_color = Color(1, 1, 1, 1)
+damage_popup_crit_color = Color(1, 0.55, 0.2, 1)
+damage_popup_heal_color = Color(0.4, 0.95, 0.45, 1)
+damage_popup_font_size = 18
+damage_popup_crit_font_size = 26
+damage_popup_drift_distance = 40.0
+damage_popup_horizontal_jitter = 16.0
+damage_popup_lifetime = 0.6
+damage_popup_pool_initial_size = 20

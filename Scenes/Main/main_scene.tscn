@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://dm4laau2cgev5"]
+
+[ext_resource type="PackedScene" uid="uid://c1q058ictuauu" path="res://Scenes/Characters/Player.tscn" id="1_player"]
+[ext_resource type="PackedScene" uid="uid://dm4laauwwbra3" path="res://Scenes/UI/HUD.tscn" id="2_hud"]
+[ext_resource type="Script" uid="uid://6622ryl5iiy4" path="res://Script/Camera/CameraRig.gd" id="3_cam"]
+[ext_resource type="Script" uid="uid://dqbw352030tkx" path="res://Script/Character/Components/HurtboxComponent.gd" id="4_hurt"]
+[ext_resource type="Script" uid="uid://c0m2bwt7ggy16" path="res://Script/GAS/AbilitySystemComponent.gd" id="5_asc"]
+[ext_resource type="Resource" uid="uid://dm4laaupvrja3" path="res://Data/Attributes/DefaultPlayerAttributes.tres" id="6_attr"]
+[ext_resource type="Script" uid="uid://cljef8hrqycax" path="res://Scenes/Main/main_scene.gd" id="7_main"]
+
+[sub_resource type="RectangleShape2D" id="DummyHurtShape"]
+size = Vector2(80, 80)
+
+[node name="MainScene" type="Node2D" unique_id=1928977530]
+script = ExtResource("7_main")
+
+[node name="Background" type="ColorRect" parent="." unique_id=199729853]
+offset_left = -2000.0
+offset_top = -2000.0
+offset_right = 2000.0
+offset_bottom = 2000.0
+color = Color(0.15, 0.15, 0.18, 1)
+
+[node name="Player" parent="." unique_id=1904858124 instance=ExtResource("1_player")]
+position = Vector2(400, 400)
+
+[node name="CameraRig" type="Camera2D" parent="." unique_id=593480277]
+position = Vector2(400, 400)
+script = ExtResource("3_cam")
+
+[node name="TrainingDummy" type="Node2D" parent="." unique_id=1246733438]
+position = Vector2(580, 400)
+
+[node name="Visual" type="ColorRect" parent="TrainingDummy" unique_id=869921259]
+offset_left = -40.0
+offset_top = -40.0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.85, 0.3, 0.3, 1)
+
+[node name="DummyLabel" type="Label" parent="TrainingDummy" unique_id=373298077]
+offset_left = -50.0
+offset_top = -64.0
+offset_right = 50.0
+offset_bottom = -44.0
+text = "训练假人"
+horizontal_alignment = 1
+
+[node name="HurtboxComponent" type="Area2D" parent="TrainingDummy" unique_id=2066272477]
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("4_hurt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TrainingDummy/HurtboxComponent" unique_id=940064737]
+shape = SubResource("DummyHurtShape")
+
+[node name="AbilitySystemComponent" type="Node" parent="TrainingDummy" unique_id=1496798377]
+script = ExtResource("5_asc")
+attribute_set = ExtResource("6_attr")
+
+[node name="HUDLayer" type="CanvasLayer" parent="." unique_id=1694321385]
+
+[node name="HUD" parent="HUDLayer" unique_id=1993057819 instance=ExtResource("2_hud")]

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Ability_TimelineDriven" format=3 uid="uid://dm4laaupdxra3"]
+
+[ext_resource type="Script" path="res://Script/GAS/Abilities/Ability_TimelineDriven.gd" id="1_ab"]
+
+[resource]
+script = ExtResource("1_ab")
+ability_id = &"basic_attack"
+cost_effect = null
+cooldown = 0.4
+tags_required = Array[StringName]([])
+tags_blocked = Array[StringName]([&"state.stunned", &"state.silenced"])
+activation_tags = Array[StringName]([&"ability.activating", &"ability.activating.basic_attack"])
+display_name = "Basic Attack"
+timeline_id = &"player_basic_attack"

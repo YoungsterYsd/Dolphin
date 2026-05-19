@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="GameplayEffect" format=3 uid="uid://dm4laauvgxra5"]
+
+[ext_resource type="Script" uid="uid://lol3nsneifiw" path="res://Script/GAS/GameplayEffect.gd" id="1_ge"]
+[ext_resource type="Script" uid="uid://dugmfu7vnld17" path="res://Script/GAS/AttributeModifier.gd" id="1_seu7t"]
+
+[resource]
+script = ExtResource("1_ge")
+removed_tags = Array[StringName]([&"state.stunned", &"state.silenced", &"state.rooted"])
+display_name = "Cleanse"

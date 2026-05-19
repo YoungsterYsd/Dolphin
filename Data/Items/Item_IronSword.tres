@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EquipmentDefinition" format=3 uid="uid://c1q058bkxiv3v"]
+
+[ext_resource type="Script" uid="uid://bxspcgjcxwdq1" path="res://Script/Items/EquipmentDefinition.gd" id="1_equip"]
+[ext_resource type="Script" uid="uid://dugmfu7vnld17" path="res://Script/GAS/AttributeModifier.gd" id="2_mod"]
+[ext_resource type="Script" uid="uid://226s84a1372y" path="res://Script/GAS/Ability.gd" id="2_xqkco"]
+
+[sub_resource type="Resource" id="Mod_atk"]
+script = ExtResource("2_mod")
+attribute = &"attack"
+magnitude = 5.0
+
+[resource]
+script = ExtResource("1_equip")
+attribute_modifiers = Array[ExtResource("2_mod")]([SubResource("Mod_atk")])
+item_id = &"iron_sword"
+display_name = "铁剑"
+description = "攻击 +5"
