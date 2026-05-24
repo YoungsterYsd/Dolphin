@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dkkt7nmbhb70s"
+
+[deps]
+
+files=["res://Data/FromExcel/Frag_Currency.en.translation", "res://Data/FromExcel/Frag_Currency.Icon.translation"]
+
+source_file="res://Data/FromExcel/Frag_Currency.csv"
+dest_files=["res://Data/FromExcel/Frag_Currency.en.translation", "res://Data/FromExcel/Frag_Currency.Icon.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

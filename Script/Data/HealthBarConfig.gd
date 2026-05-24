@@ -1,4 +1,4 @@
-## 血条系统配置（M8 引入）。
+## 血条系统配置。
 ##
 ## 头顶血条 + Boss 分层血条参数。
 class_name HealthBarConfig

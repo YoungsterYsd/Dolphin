@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="UIDurations" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Script/UI/UIDurations.gd" id="1_dur"]
+
+[resource]
+script = ExtResource("1_dur")
+xs_ms = 80
+s_ms = 180
+m_ms = 320
+l_ms = 600
+exit_ratio = 0.7
+reduce_motion = false

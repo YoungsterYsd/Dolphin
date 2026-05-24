@@ -1,7 +1,7 @@
 ## 动画轨道处理器（静态）。
 ##
 ## 收到 [AnimationKeyframe] 时调 caster 的 [AnimationComponent.play(name)]。
-## 兼容 2D（M9 前）与 3D（M9 后）：AnimationComponent 内部按 sprite 类型分支。
+## 兼容 2D 与 3D：AnimationComponent 内部按 sprite 类型分支。
 class_name AnimationTrackHandler
 extends RefCounted
 

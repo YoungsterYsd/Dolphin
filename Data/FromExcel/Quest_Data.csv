@@ -1,0 +1,6 @@
+﻿id,sub_id,Name,Desc,Kind,ID,Num,Drop_Rule_ID,Deliver_Dialogue_ID
+1,,,,Item,0,0,0,0
+1,1,收集证物,找回 2 个史莱姆掉落的证物,Item,4,2,2001,1101
+1,2,讨伐史莱姆,村外消灭 3 只小怪 A,Monster,1,3,2002,1102
+1,3,拜访铁匠,去铁匠铺找他了解情况,NPC,2,1,2003,1103
+1,4,击败 BOSS,山洞里的 BOSS B 必须解决,Monster,2,1,2004,0

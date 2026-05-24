@@ -11,4 +11,5 @@ tags_required = Array[StringName]([])
 tags_blocked = Array[StringName]([&"state.stunned", &"state.silenced"])
 activation_tags = Array[StringName]([&"ability.activating", &"ability.activating.basic_attack"])
 display_name = "Enemy Basic Attack"
+cast_poise = 3
 timeline_id = &"enemy_basic_attack"

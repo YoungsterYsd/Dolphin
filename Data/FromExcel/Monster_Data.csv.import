@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://brwl523pmr1dm"
+
+[deps]
+
+files=["res://Data/FromExcel/Monster_Data.en.translation", "res://Data/FromExcel/Monster_Data.name.translation", "res://Data/FromExcel/Monster_Data.type.translation", "res://Data/FromExcel/Monster_Data.attr.translation", "res://Data/FromExcel/Monster_Data.level.translation"]
+
+source_file="res://Data/FromExcel/Monster_Data.csv"
+dest_files=["res://Data/FromExcel/Monster_Data.en.translation", "res://Data/FromExcel/Monster_Data.name.translation", "res://Data/FromExcel/Monster_Data.type.translation", "res://Data/FromExcel/Monster_Data.attr.translation", "res://Data/FromExcel/Monster_Data.level.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

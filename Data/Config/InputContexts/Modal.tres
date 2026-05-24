@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="InputContext" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Script/Input/InputContext.gd" id="1_ctx"]
+[ext_resource type="Resource" path="res://Data/Config/InputContexts/PanelOpen.tres" id="2_parent"]
+
+[resource]
+script = ExtResource("1_ctx")
+context_id = &"Modal"
+explicit_allowed = [&"combat_interact"]
+explicit_blocked = []
+allow_all = false
+inherit_from = ExtResource("2_parent")
+display_name = "模态弹窗（继承 PanelOpen，仅扩允许 confirm）"

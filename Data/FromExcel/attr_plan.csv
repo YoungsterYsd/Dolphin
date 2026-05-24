@@ -1,0 +1,7 @@
+﻿id,sub_id,Attr_Type,Op,Val,Weight
+1001,,,add,0.0,0
+1001,1,health_base,add,20.0,100
+1001,2,stamina_max,add,10.0,80
+1002,,,add,0.0,0
+1002,1,attack_base,add,15.0,100
+1002,2,attack_bonus,multiply,0.1,80

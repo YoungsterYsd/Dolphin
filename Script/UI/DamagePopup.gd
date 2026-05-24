@@ -1,4 +1,4 @@
-## 单个伤害飘字（M8 引入）。
+## 单个伤害飘字。
 ##
 ## 由 [DamagePopupPool] 创建并复用；外部不直接 new。
 ##
@@ -34,11 +34,17 @@ func _ready() -> void:
 ##   jitter:    水平随机偏移 ±jitter
 ##   lifetime:  存活秒
 func show_damage(screen_pos: Vector2, amount: float, color: Color, font_size: int, drift: float, jitter: float, lifetime: float) -> void:
+	show_text(screen_pos, "%d" % int(round(amount)), color, font_size, drift, jitter, lifetime)
+
+
+## 显示任意文本飘字（MISS / 闪避 / 经验 +N / 金币 +N 等）。
+## 与 show_damage 共享 Tween 流程，仅文本不同。
+func show_text(screen_pos: Vector2, text_str: String, color: Color, font_size: int, drift: float, jitter: float, lifetime: float) -> void:
 	# 杀掉旧 tween
 	if _tween != null and _tween.is_valid():
 		_tween.kill()
 	# 文本与样式
-	text = "%d" % int(round(amount))
+	text = text_str
 	add_theme_color_override(&"font_color", color)
 	add_theme_font_size_override(&"font_size", font_size)
 	# 位置：在屏幕坐标偏移一个随机抖动

@@ -38,6 +38,16 @@ enum EffectType { INSTANT, DURATION, PERIODIC }
 ## 应用时强制移除目标的这些 tag（按父匹配清除所有匹配，一次性）。
 @export var removed_tags: Array[StringName] = []
 
+## DURATION/PERIODIC 效果存活期间触发的"持续 cue"。
+##
+## 由 [AbilitySystemComponent] 在 [code]_attach_active[/code] 时通过 [code]GameInstance.cue_manager.add_active_cue[/code]
+## 启动；在 [code]_detach_active[/code] 时通过 [code]remove_active_cue[/code] 停止。
+## 例：[code]GE_Burning_3s.cue_tags_while_active = [&"Cue.Buff.Burning.Active"][/code]
+##
+## 注：本字段仅 DURATION/PERIODIC 生效；INSTANT 类型应在 DamagePipeline 第 13 步直接调
+## [code]execute_cue(&"Cue.Damage...")[/code]，不通过本字段。
+@export var cue_tags_while_active: Array[StringName] = []
+
 ## 调试名（用于日志）。可选。
 @export var display_name: String = ""
 

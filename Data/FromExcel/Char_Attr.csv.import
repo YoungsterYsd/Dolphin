@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dl2rns8oexrh3"
+
+[deps]
+
+files=["res://Data/FromExcel/Char_Attr.en.translation", "res://Data/FromExcel/Char_Attr.health.translation", "res://Data/FromExcel/Char_Attr.attack.translation", "res://Data/FromExcel/Char_Attr.armor.translation", "res://Data/FromExcel/Char_Attr.normal.translation", "res://Data/FromExcel/Char_Attr.move.translation", "res://Data/FromExcel/Char_Attr.stamina.translation", "res://Data/FromExcel/Char_Attr.crit.translation", "res://Data/FromExcel/Char_Attr.crit.translation"]
+
+source_file="res://Data/FromExcel/Char_Attr.csv"
+dest_files=["res://Data/FromExcel/Char_Attr.en.translation", "res://Data/FromExcel/Char_Attr.health.translation", "res://Data/FromExcel/Char_Attr.attack.translation", "res://Data/FromExcel/Char_Attr.armor.translation", "res://Data/FromExcel/Char_Attr.normal.translation", "res://Data/FromExcel/Char_Attr.move.translation", "res://Data/FromExcel/Char_Attr.stamina.translation", "res://Data/FromExcel/Char_Attr.crit.translation", "res://Data/FromExcel/Char_Attr.crit.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

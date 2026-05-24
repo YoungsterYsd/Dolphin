@@ -1,12 +1,17 @@
-[gd_resource type="Resource" script_class="LevelDef" format=3 uid="uid://c1q058em48aiu"]
+[gd_resource type="Resource" format=3 uid="uid://c1q058em48aiu"]
 
 [ext_resource type="Script" path="res://Script/GameFramework/LevelDef.gd" id="1_lvl"]
-[ext_resource type="PackedScene" uid="uid://drldoxygbossrm1" path="res://Scenes/Levels/BossRoom_01.tscn" id="2_scene"]
+[ext_resource type="PackedScene" path="res://Scenes/Levels/BossRoom_01.tscn" id="2_scene"]
 
 [resource]
 script = ExtResource("1_lvl")
 level_id = &"boss_room_01"
-display_name = "BossRoom 01"
+display_name = "Boss 房 - 试炼之厅"
 scene = ExtResource("2_scene")
 bgm = null
 is_boss_room = true
+spawn_marker_id = &"main_entrance"
+loading_tip = "做好准备，强敌就在前方……"
+fade_out_seconds = 0.5
+fade_in_seconds = 0.5
+fade_color = Color(0, 0, 0, 1)

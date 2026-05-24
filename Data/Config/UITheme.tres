@@ -1,0 +1,8 @@
+[gd_resource type="Theme" format=3]
+
+; UI 全局 Theme 占位（Phase 2 建空壳，Phase 3 各 widget 接入时按需填充字号 / 圆角 / 按钮尺寸）。
+; 用法：BaseWidget.theme_resource = preload("res://Data/Config/UITheme.tres")
+; 或在 HUD_Main.tscn 根节点设 theme = ext_resource("UITheme.tres")，所有子节点自动继承。
+
+[resource]
+default_font_size = 16

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="HUDLayoutResource" load_steps=2 format=3]
+
+; 过场布局：所有 widget 都不挂载，仅保留底层 8 层骨架（外部字幕 widget 由过场系统单独 push 到 L5）。
+; 简化做法：mounts 留空。
+
+[ext_resource type="Script" path="res://Script/UI/HUDLayoutResource.gd" id="1_layout"]
+
+[resource]
+script = ExtResource("1_layout")
+layout_name = "Cutscene"
+mounts = []

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="GameplayEffect" load_steps=3 format=3 uid="uid://dm4laaud2blkstate"]
+
+[ext_resource type="Script" path="res://Script/GAS/GameplayEffect.gd" id="1_ge"]
+[ext_resource type="Script" path="res://Script/GAS/AttributeModifier.gd" id="2_mod"]
+
+[resource]
+script = ExtResource("1_ge")
+effect_type = 1
+modifiers = Array[ExtResource("2_mod")]([])
+duration = 60.0
+period = 1.0
+granted_tags = Array[StringName]([&"Combat.Block.Active"])
+application_required_tags = Array[StringName]([])
+application_blocked_tags = Array[StringName]([])
+removed_tags = Array[StringName]([])
+cue_tags_while_active = Array[StringName]([])
+display_name = "BlockState (按住 D 键期间挂；duration=60s 兜底，由 BlockComponent 主动 stop_block 移除)"

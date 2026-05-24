@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://cuxxjytwke187"
+
+[deps]
+
+files=["res://Data/FromExcel/NPC_Diapack.sub.translation", "res://Data/FromExcel/NPC_Diapack.Talk.translation", "res://Data/FromExcel/NPC_Diapack.Dialogue_ID.translation", "res://Data/FromExcel/NPC_Diapack.Condition.translation"]
+
+source_file="res://Data/FromExcel/NPC_Diapack.csv"
+dest_files=["res://Data/FromExcel/NPC_Diapack.sub.translation", "res://Data/FromExcel/NPC_Diapack.Talk.translation", "res://Data/FromExcel/NPC_Diapack.Dialogue_ID.translation", "res://Data/FromExcel/NPC_Diapack.Condition.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

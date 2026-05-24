@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://2sidim5eibej"
+
+[deps]
+
+files=["res://Data/FromExcel/Attr_Data.en.translation", "res://Data/FromExcel/Attr_Data.Name.translation", "res://Data/FromExcel/Attr_Data.Var.translation"]
+
+source_file="res://Data/FromExcel/Attr_Data.csv"
+dest_files=["res://Data/FromExcel/Attr_Data.en.translation", "res://Data/FromExcel/Attr_Data.Name.translation", "res://Data/FromExcel/Attr_Data.Var.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

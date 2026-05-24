@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://di71bw8iecgrw"
+
+[deps]
+
+files=["res://Data/FromExcel/Frag_Equip.en.translation", "res://Data/FromExcel/Frag_Equip.Slot.translation", "res://Data/FromExcel/Frag_Equip.num.translation", "res://Data/FromExcel/Frag_Equip.affix.translation", "res://Data/FromExcel/Frag_Equip.num.translation", "res://Data/FromExcel/Frag_Equip.affix.translation"]
+
+source_file="res://Data/FromExcel/Frag_Equip.csv"
+dest_files=["res://Data/FromExcel/Frag_Equip.en.translation", "res://Data/FromExcel/Frag_Equip.Slot.translation", "res://Data/FromExcel/Frag_Equip.num.translation", "res://Data/FromExcel/Frag_Equip.affix.translation", "res://Data/FromExcel/Frag_Equip.num.translation", "res://Data/FromExcel/Frag_Equip.affix.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

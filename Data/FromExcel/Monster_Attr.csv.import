@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://b1ejfmywakfa5"
+
+[deps]
+
+files=["res://Data/FromExcel/Monster_Attr.en.translation", "res://Data/FromExcel/Monster_Attr.health.translation", "res://Data/FromExcel/Monster_Attr.attack.translation", "res://Data/FromExcel/Monster_Attr.armor.translation", "res://Data/FromExcel/Monster_Attr.normal.translation", "res://Data/FromExcel/Monster_Attr.move.translation", "res://Data/FromExcel/Monster_Attr.stamina.translation"]
+
+source_file="res://Data/FromExcel/Monster_Attr.csv"
+dest_files=["res://Data/FromExcel/Monster_Attr.en.translation", "res://Data/FromExcel/Monster_Attr.health.translation", "res://Data/FromExcel/Monster_Attr.attack.translation", "res://Data/FromExcel/Monster_Attr.armor.translation", "res://Data/FromExcel/Monster_Attr.normal.translation", "res://Data/FromExcel/Monster_Attr.move.translation", "res://Data/FromExcel/Monster_Attr.stamina.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

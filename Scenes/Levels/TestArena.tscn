@@ -1,140 +1,179 @@
-[gd_scene format=3 uid="uid://c1q0572ixi53u"]
+[gd_scene load_steps=28 format=3 uid="uid://c1q0572ixi53u"]
 
 [ext_resource type="PackedScene" uid="uid://c1q058ictuauu" path="res://Scenes/Characters/Player.tscn" id="1_player"]
 [ext_resource type="PackedScene" uid="uid://dm4laauwwbra3" path="res://Scenes/UI/HUD.tscn" id="2_hud"]
-[ext_resource type="Script" uid="uid://6622ryl5iiy4" path="res://Script/Camera/CameraRig.gd" id="3_cam"]
+[ext_resource type="Script" path="res://Script/Camera/CameraRig.gd" id="3_cam"]
 [ext_resource type="PackedScene" uid="uid://c1q058lc2ia3u" path="res://Scenes/Characters/Enemy_Slime.tscn" id="4_slime"]
-[ext_resource type="Script" uid="uid://wlmafy23qhof" path="res://Scenes/Levels/test_arena.gd" id="5_arena"]
-[ext_resource type="Script" uid="uid://dc2lvp34llpu" path="res://Script/Items/PickupArea.gd" id="6_pickup"]
-[ext_resource type="Resource" uid="uid://c1q058bkxiv3u" path="res://Data/Items/Item_HealthPotion.tres" id="7_potion"]
-[ext_resource type="Resource" uid="uid://c1q058bkxiv3v" path="res://Data/Items/Item_IronSword.tres" id="8_sword"]
-[ext_resource type="Script" uid="uid://d1r8va7ftq1s" path="res://Script/Items/BossPortal.gd" id="9_portal"]
-[ext_resource type="Resource" uid="uid://c1q058em48aiu" path="res://Data/Levels/LevelDef_BossRoom_01.tres" id="10_boss_lvl"]
+[ext_resource type="Script" path="res://Scenes/Levels/test_arena.gd" id="5_arena"]
+[ext_resource type="Script" path="res://Script/Items/PickupArea.gd" id="6_pickup"]
+[ext_resource type="Script" path="res://Script/Items/BossPortal.gd" id="9_portal"]
 [ext_resource type="PackedScene" uid="uid://drldoxyginvui" path="res://Scenes/UI/InventoryUI.tscn" id="11_invui"]
 [ext_resource type="PackedScene" uid="uid://c1q058h1foa3u" path="res://Scenes/UI/PauseMenu.tscn" id="12_pause"]
+[ext_resource type="Script" path="res://Script/Lighting/LightingApplier.gd" id="13_light"]
+[ext_resource type="PackedScene" uid="uid://b7p3x9k1ydolp_npc" path="res://Scenes/Characters/NPC.tscn" id="14_npc"]
+[ext_resource type="Script" path="res://Script/GameFramework/LevelSpawnMarker.gd" id="15_spawn"]
 
-[sub_resource type="CircleShape2D" id="PickupShape"]
-radius = 24.0
+[sub_resource type="PlaneMesh" id="GroundMesh"]
+size = Vector2(40, 40)
 
-[sub_resource type="RectangleShape2D" id="PortalShape"]
-size = Vector2(80, 80)
+[sub_resource type="StandardMaterial3D" id="GroundMat"]
+albedo_color = Color(0.25, 0.28, 0.32, 1)
+metallic_specular = 0.0
+roughness = 0.85
 
-[node name="TestArena" type="Node2D" unique_id=1493467328]
+[sub_resource type="BoxShape3D" id="GroundCol"]
+size = Vector3(40, 0.2, 40)
+
+[sub_resource type="ProceduralSkyMaterial" id="SkyMat"]
+sky_horizon_color = Color(0.6, 0.65, 0.75, 1)
+sky_top_color = Color(0.4, 0.5, 0.7, 1)
+ground_horizon_color = Color(0.6, 0.65, 0.75, 1)
+ground_bottom_color = Color(0.2, 0.22, 0.25, 1)
+
+[sub_resource type="Sky" id="Sky"]
+sky_material = SubResource("SkyMat")
+
+[sub_resource type="Environment" id="Env"]
+background_mode = 2
+sky = SubResource("Sky")
+ambient_light_source = 3
+ambient_light_color = Color(0.5, 0.55, 0.65, 1)
+ambient_light_energy = 0.3
+tonemap_mode = 2
+ssao_enabled = true
+ssao_intensity = 2.0
+ssao_radius = 1.5
+glow_enabled = true
+glow_intensity = 0.3
+glow_strength = 1.0
+fog_enabled = true
+fog_density = 0.005
+fog_light_color = Color(0.7, 0.8, 0.9, 1)
+adjustment_enabled = false
+
+[sub_resource type="SphereShape3D" id="PickupShape"]
+radius = 0.6
+
+[sub_resource type="BoxMesh" id="PickupMesh"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="PotionMat"]
+albedo_color = Color(0.4, 0.9, 0.5, 1)
+emission_enabled = true
+emission = Color(0.4, 0.9, 0.5, 1)
+emission_energy_multiplier = 0.4
+
+[sub_resource type="StandardMaterial3D" id="SwordMat"]
+albedo_color = Color(0.85, 0.85, 0.9, 1)
+metallic = 0.7
+roughness = 0.3
+
+[sub_resource type="BoxShape3D" id="PortalShape"]
+size = Vector3(2, 2, 2)
+
+[sub_resource type="BoxMesh" id="PortalMesh"]
+size = Vector3(2, 2, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="PortalMat"]
+albedo_color = Color(0.5, 0.3, 0.95, 0.85)
+emission_enabled = true
+emission = Color(0.6, 0.4, 1.0, 1)
+emission_energy_multiplier = 1.5
+transparency = 1
+
+[node name="TestArena" type="Node3D"]
 script = ExtResource("5_arena")
 
-[node name="Background" type="ColorRect" parent="." unique_id=1849714600]
-offset_left = -2000.0
-offset_top = -2000.0
-offset_right = 2000.0
-offset_bottom = 2000.0
-color = Color(0.13, 0.16, 0.18, 1)
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Env")
 
-[node name="Player" parent="." unique_id=1652614734 instance=ExtResource("1_player")]
-position = Vector2(400, 400)
+[node name="LightingApplier" type="Node" parent="."]
+script = ExtResource("13_light")
 
-[node name="CameraRig" type="Camera2D" parent="." unique_id=585629480]
-position = Vector2(400, 400)
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, -0.353553, 0.353553, 0, 0.707107, 0.707107, -0.5, -0.612372, 0.612372, 0, 5, 0)
+light_color = Color(1, 0.95, 0.85, 1)
+light_energy = 1.2
+shadow_enabled = true
+
+[node name="Ground" type="StaticBody3D" parent="."]
+collision_layer = 1
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("GroundMesh")
+surface_material_override/0 = SubResource("GroundMat")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+shape = SubResource("GroundCol")
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="SpawnMarkers" type="Node3D" parent="."]
+
+[node name="SpawnMain" type="Marker3D" parent="SpawnMarkers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("15_spawn")
+spawn_id = &"main_entrance"
+
+[node name="SpawnFromBoss" type="Marker3D" parent="SpawnMarkers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 0)
+script = ExtResource("15_spawn")
+spawn_id = &"from_boss"
+
+[node name="CameraRig" type="Node3D" parent="."]
 script = ExtResource("3_cam")
 
-[node name="Enemies" type="Node2D" parent="." unique_id=574521360]
+[node name="Enemies" type="Node3D" parent="."]
 
-[node name="Slime1" parent="Enemies" unique_id=1962604181 instance=ExtResource("4_slime")]
-position = Vector2(700, 350)
+[node name="Slime1" parent="Enemies" instance=ExtResource("4_slime")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -2)
 
-[node name="Slime2" parent="Enemies" unique_id=1293641066 instance=ExtResource("4_slime")]
-position = Vector2(750, 480)
+[node name="Slime2" parent="Enemies" instance=ExtResource("4_slime")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 1)
 
-[node name="Slime3" parent="Enemies" unique_id=1307013395 instance=ExtResource("4_slime")]
-position = Vector2(820, 380)
+[node name="Slime3" parent="Enemies" instance=ExtResource("4_slime")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -1)
 
-[node name="Pickups" type="Node2D" parent="." unique_id=810212146]
+[node name="NPCs" type="Node3D" parent="."]
 
-[node name="PotionPickup" type="Area2D" parent="Pickups" unique_id=717105434]
-position = Vector2(280, 480)
-collision_layer = 32
-collision_mask = 2
-script = ExtResource("6_pickup")
-item = ExtResource("7_potion")
-count = 3
+[node name="ElderNPC" parent="NPCs" instance=ExtResource("14_npc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -3)
+display_name = "村长"
+prompt_text = "[G] 对话"
+dialogue_graph_id = 1001
+npc_id = 1
 
-[node name="Visual" type="ColorRect" parent="Pickups/PotionPickup" unique_id=1078576583]
-offset_left = -12.0
-offset_top = -12.0
-offset_right = 12.0
-offset_bottom = 12.0
-color = Color(0.4, 0.9, 0.5, 1)
+[node name="Pickups" type="Node3D" parent="."]
 
-[node name="Label" type="Label" parent="Pickups/PotionPickup" unique_id=1365561328]
-offset_left = -50.0
-offset_top = -36.0
-offset_right = 50.0
-offset_bottom = -16.0
-text = "药水 x3"
-horizontal_alignment = 1
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Pickups/PotionPickup" unique_id=1687720639]
-shape = SubResource("PickupShape")
-
-[node name="SwordPickup" type="Area2D" parent="Pickups" unique_id=1546372451]
-position = Vector2(280, 320)
-collision_layer = 32
-collision_mask = 2
-script = ExtResource("6_pickup")
-item = ExtResource("8_sword")
-
-[node name="Visual" type="ColorRect" parent="Pickups/SwordPickup" unique_id=436022089]
-offset_left = -12.0
-offset_top = -12.0
-offset_right = 12.0
-offset_bottom = 12.0
-color = Color(0.85, 0.85, 0.9, 1)
-
-[node name="Label" type="Label" parent="Pickups/SwordPickup" unique_id=894934669]
-offset_left = -50.0
-offset_top = -36.0
-offset_right = 50.0
-offset_bottom = -16.0
-text = "铁剑"
-horizontal_alignment = 1
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Pickups/SwordPickup" unique_id=1159564243]
-shape = SubResource("PickupShape")
-
-[node name="BossPortal" type="Area2D" parent="." unique_id=41552289]
-position = Vector2(120, 400)
+[node name="BossPortal" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 0)
 collision_layer = 32
 collision_mask = 2
 script = ExtResource("9_portal")
-target_level = ExtResource("10_boss_lvl")
+target_level_path = "res://Data/Levels/LevelDef_BossRoom_01.tres"
 
-[node name="Visual" type="ColorRect" parent="BossPortal" unique_id=1625262606]
-offset_left = -32.0
-offset_top = -32.0
-offset_right = 32.0
-offset_bottom = 32.0
-color = Color(0.5, 0.3, 0.95, 0.85)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BossPortal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+mesh = SubResource("PortalMesh")
+surface_material_override/0 = SubResource("PortalMat")
 
-[node name="Label" type="Label" parent="BossPortal" unique_id=840109375]
-offset_left = -64.0
-offset_top = -56.0
-offset_right = 64.0
-offset_bottom = -36.0
-text = "Boss 房传送"
-horizontal_alignment = 1
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BossPortal" unique_id=198461498]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BossPortal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
 shape = SubResource("PortalShape")
 
-[node name="HUDLayer" type="CanvasLayer" parent="." unique_id=846676167]
+[node name="HUDLayer" type="CanvasLayer" parent="."]
 
-[node name="HUD" parent="HUDLayer" unique_id=1917685487 instance=ExtResource("2_hud")]
+[node name="HUD" parent="HUDLayer" instance=ExtResource("2_hud")]
 
-[node name="InventoryUI" parent="HUDLayer" unique_id=771128345 instance=ExtResource("11_invui")]
+[node name="InventoryUI" parent="HUDLayer" instance=ExtResource("11_invui")]
 visible = false
 
-[node name="PauseMenu" parent="HUDLayer" unique_id=1487945445 instance=ExtResource("12_pause")]
+[node name="PauseMenu" parent="HUDLayer" instance=ExtResource("12_pause")]
 
-[node name="GameOverLabel" type="Label" parent="HUDLayer" unique_id=260843613]
+[node name="GameOverLabel" type="Label" parent="HUDLayer"]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5

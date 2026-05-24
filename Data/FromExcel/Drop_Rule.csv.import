@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://djvgk5sl71gd0"
+
+[deps]
+
+files=["res://Data/FromExcel/Drop_Rule.sub.translation", "res://Data/FromExcel/Drop_Rule.Type.translation", "res://Data/FromExcel/Drop_Rule.Weight.translation", "res://Data/FromExcel/Drop_Rule.Item_ID.translation", "res://Data/FromExcel/Drop_Rule.Item.translation"]
+
+source_file="res://Data/FromExcel/Drop_Rule.csv"
+dest_files=["res://Data/FromExcel/Drop_Rule.sub.translation", "res://Data/FromExcel/Drop_Rule.Type.translation", "res://Data/FromExcel/Drop_Rule.Weight.translation", "res://Data/FromExcel/Drop_Rule.Item_ID.translation", "res://Data/FromExcel/Drop_Rule.Item.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

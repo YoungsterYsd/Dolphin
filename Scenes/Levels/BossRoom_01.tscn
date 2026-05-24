@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://c1q0573gdonpu"]
+[gd_scene load_steps=14 format=3 uid="uid://c1q0573gdonpu"]
 
 [ext_resource type="PackedScene" uid="uid://drldoxygplayer1" path="res://Scenes/Characters/Player.tscn" id="1_player"]
 [ext_resource type="PackedScene" uid="uid://drldoxyghud001" path="res://Scenes/UI/HUD.tscn" id="2_hud"]
@@ -7,27 +7,101 @@
 [ext_resource type="PackedScene" uid="uid://drldoxygbosshb" path="res://Scenes/UI/BossHealthBar.tscn" id="5_bhb"]
 [ext_resource type="PackedScene" uid="uid://drldoxygpause01" path="res://Scenes/UI/PauseMenu.tscn" id="6_pause"]
 [ext_resource type="Script" path="res://Scenes/Levels/boss_room.gd" id="7_room"]
+[ext_resource type="Script" path="res://Script/Lighting/LightingApplier.gd" id="8_light"]
+[ext_resource type="Script" path="res://Script/GameFramework/LevelSpawnMarker.gd" id="9_spawn"]
+[ext_resource type="Script" path="res://Script/GameFramework/LevelTransitionArea.gd" id="10_transit"]
 
-[node name="BossRoom" type="Node2D"]
+[sub_resource type="PlaneMesh" id="GroundMesh"]
+size = Vector2(30, 30)
+
+[sub_resource type="StandardMaterial3D" id="GroundMat"]
+albedo_color = Color(0.10, 0.08, 0.14, 1)
+roughness = 0.9
+
+[sub_resource type="BoxShape3D" id="GroundCol"]
+size = Vector3(30, 0.2, 30)
+
+[sub_resource type="ProceduralSkyMaterial" id="SkyMat"]
+sky_horizon_color = Color(0.15, 0.10, 0.20, 1)
+sky_top_color = Color(0.05, 0.03, 0.10, 1)
+ground_horizon_color = Color(0.15, 0.10, 0.20, 1)
+ground_bottom_color = Color(0.05, 0.03, 0.10, 1)
+
+[sub_resource type="Sky" id="Sky"]
+sky_material = SubResource("SkyMat")
+
+[sub_resource type="Environment" id="Env"]
+background_mode = 2
+sky = SubResource("Sky")
+ambient_light_source = 3
+ambient_light_color = Color(0.35, 0.25, 0.55, 1)
+ambient_light_energy = 0.4
+tonemap_mode = 2
+ssao_enabled = true
+ssao_intensity = 2.5
+glow_enabled = true
+glow_intensity = 0.4
+glow_strength = 1.2
+fog_enabled = true
+fog_density = 0.012
+fog_light_color = Color(0.4, 0.3, 0.6, 1)
+
+[sub_resource type="BoxShape3D" id="ReturnPortalShape"]
+size = Vector3(2, 1, 2)
+
+[node name="BossRoom" type="Node3D"]
 script = ExtResource("7_room")
 
-[node name="Background" type="ColorRect" parent="."]
-offset_left = -2000.0
-offset_top = -2000.0
-offset_right = 2000.0
-offset_bottom = 2000.0
-color = Color(0.08, 0.06, 0.14, 1)
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Env")
+
+[node name="LightingApplier" type="Node" parent="."]
+script = ExtResource("8_light")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, -0.353553, 0.353553, 0, 0.707107, 0.707107, -0.5, -0.612372, 0.612372, 0, 5, 0)
+light_color = Color(0.85, 0.7, 1.0, 1)
+light_energy = 0.8
+shadow_enabled = true
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("GroundMesh")
+surface_material_override/0 = SubResource("GroundMat")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+shape = SubResource("GroundCol")
 
 [node name="Player" parent="." instance=ExtResource("1_player")]
-position = Vector2(300, 400)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 0)
 
-[node name="CameraRig" type="Camera2D" parent="."]
-position = Vector2(400, 400)
+[node name="CameraRig" type="Node3D" parent="."]
 script = ExtResource("3_cam")
-camera_zoom = 1.6
 
 [node name="Boss" parent="." instance=ExtResource("4_boss")]
-position = Vector2(800, 400)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
+
+[node name="SpawnMarkers" type="Node3D" parent="."]
+
+[node name="SpawnMain" type="Marker3D" parent="SpawnMarkers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 0)
+script = ExtResource("9_spawn")
+spawn_id = &"main_entrance"
+
+[node name="ReturnPortal" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 0)
+collision_layer = 32
+collision_mask = 1
+script = ExtResource("10_transit")
+target_level_path = "res://Data/Levels/LevelDef_TestArena.tres"
+require_interact = false
+display_name = "返回村庄"
+
+[node name="ReturnPortalShape" type="CollisionShape3D" parent="ReturnPortal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("ReturnPortalShape")
 
 [node name="HUDLayer" type="CanvasLayer" parent="."]
 

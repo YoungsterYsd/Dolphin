@@ -1,16 +1,17 @@
-[gd_scene format=3 uid="uid://c1q058lc2ia3u"]
+[gd_scene load_steps=14 format=3 uid="uid://c1q058lc2ia3u"]
 
 [ext_resource type="Texture2D" uid="uid://byb2k04hkbwng" path="res://Content/Sprites/Slimer.png" id="1_slime"]
+[ext_resource type="Script" uid="uid://226s84a1372y" path="res://Script/GAS/Ability.gd" id="2_ab_base"]
 [ext_resource type="Script" uid="uid://d1wnrk7dlurwt" path="res://Script/Character/EnemyCharacter.gd" id="2_ec"]
-[ext_resource type="Script" uid="uid://226s84a1372y" path="res://Script/GAS/Ability.gd" id="2_te1ht"]
 [ext_resource type="Script" uid="uid://tprf4fxhih8m" path="res://Script/Character/Components/MoveComponent.gd" id="3_move"]
 [ext_resource type="Script" uid="uid://qoqjsfp6vwgw" path="res://Script/Character/Components/AnimationComponent.gd" id="4_anim"]
 [ext_resource type="Script" uid="uid://4e6ngal1xkld" path="res://Script/Character/Components/HitboxComponent.gd" id="5_hit"]
 [ext_resource type="Script" uid="uid://dqbw352030tkx" path="res://Script/Character/Components/HurtboxComponent.gd" id="6_hurt"]
-[ext_resource type="Script" uid="uid://cnhuv04xy7dg4" path="res://Script/AI/AIController.gd" id="7_ai"]
+[ext_resource type="BehaviorTree" uid="uid://c2x5xpefg6xur" path="res://Data/AI/BT_Slime.tres" id="7_bt"]
 [ext_resource type="Script" uid="uid://c0m2bwt7ggy16" path="res://Script/GAS/AbilitySystemComponent.gd" id="8_asc"]
-[ext_resource type="Script" path="res://Script/Character/Components/HitFlashController.gd" id="9_flash"]
+[ext_resource type="Script" uid="uid://m8poa0vnal2l" path="res://Script/Character/Components/HitFlashController.gd" id="9_flash"]
 [ext_resource type="Resource" uid="uid://dm4laaupdxra4" path="res://Data/Abilities/Ability_EnemyBasicAttack.tres" id="10_ab"]
+[ext_resource type="Script" path="res://Script/Character/Components/VisualComponent.gd" id="11_visual"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ymaun"]
 atlas = ExtResource("1_slime")
@@ -27,22 +28,6 @@ region = Rect2(82, 0, 41, 38)
 [sub_resource type="AtlasTexture" id="AtlasTexture_jueel"]
 atlas = ExtResource("1_slime")
 region = Rect2(123, 0, 41, 38)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ojnox"]
-atlas = ExtResource("1_slime")
-region = Rect2(164, 0, 41, 38)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_361nw"]
-atlas = ExtResource("1_slime")
-region = Rect2(205, 0, 41, 38)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mu7ee"]
-atlas = ExtResource("1_slime")
-region = Rect2(246, 0, 41, 38)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_x0jyg"]
-atlas = ExtResource("1_slime")
-region = Rect2(287, 0, 41, 38)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_s1"]
 atlas = ExtResource("1_slime")
@@ -66,18 +51,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_jueel")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ojnox")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_361nw")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_mu7ee")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_x0jyg")
 }],
 "loop": true,
 "name": &"idle",
@@ -95,53 +68,72 @@ animations = [{
 "speed": 8.0
 }]
 
-[sub_resource type="CircleShape2D" id="HitShape"]
-radius = 36.0
+[sub_resource type="CapsuleShape3D" id="BodyShape"]
+radius = 0.25
+height = 0.5
 
-[sub_resource type="RectangleShape2D" id="HurtShape"]
-size = Vector2(24, 24)
+[sub_resource type="SphereShape3D" id="HitShape"]
+radius = 0.9
 
-[node name="Slime" type="CharacterBody2D" unique_id=1725498019]
+[sub_resource type="BoxShape3D" id="HurtShape"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[node name="Slime" type="CharacterBody3D" unique_id=199383800]
 script = ExtResource("2_ec")
-entity_id = &"slime_lv1"
-startup_ability_set = Array[ExtResource("2_te1ht")]([ExtResource("10_ab")])
+kind = 1
+data_id = 1
+startup_ability_set = Array[ExtResource("2_ab_base")]([ExtResource("10_ab")])
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1122800410]
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="." unique_id=936495141]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.475, 0)
+pixel_size = 0.025
+billboard = 1
+shaded = true
+alpha_cut = 1
+texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_slime")
 animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.16401723
 
-[node name="MoveComponent" type="Node" parent="." unique_id=2093550339]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=148660266]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+shape = SubResource("BodyShape")
+
+[node name="MoveComponent" type="Node" parent="." unique_id=1965359375]
 script = ExtResource("3_move")
-max_speed = 80.0
+max_speed = 2.5
 
-[node name="AnimationComponent" type="Node" parent="." unique_id=672278507]
+[node name="AnimationComponent" type="Node" parent="." unique_id=1539659537]
 script = ExtResource("4_anim")
 
-[node name="HitboxComponent" type="Area2D" parent="." unique_id=1896262594]
+[node name="VisualComponent" type="Node" parent="."]
+script = ExtResource("11_visual")
+sprite_ground_offset = 0.475
+
+[node name="HitboxComponent" type="Area3D" parent="." unique_id=1468383890]
 collision_layer = 16
 collision_mask = 2
 script = ExtResource("5_hit")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent" unique_id=627952319]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent" unique_id=788463259]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("HitShape")
 
-[node name="HurtboxComponent" type="Area2D" parent="." unique_id=1238506652]
+[node name="HurtboxComponent" type="Area3D" parent="." unique_id=706874432]
 collision_layer = 8
 collision_mask = 4
 script = ExtResource("6_hurt")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=1670660805]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtboxComponent" unique_id=817707734]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
 shape = SubResource("HurtShape")
 
-[node name="AIController" type="Node" parent="." unique_id=767691447]
-script = ExtResource("7_ai")
-detect_range = 240.0
-attack_range = 56.0
+[node name="BTPlayer" type="BTPlayer" parent="." unique_id=567996064]
+behavior_tree = ExtResource("7_bt")
+autostart = true
 
-[node name="AbilitySystemComponent" type="Node" parent="." unique_id=1631186606]
+[node name="AbilitySystemComponent" type="Node" parent="." unique_id=517065511]
 script = ExtResource("8_asc")
 
-[node name="HitFlashController" type="Node" parent="."]
+[node name="HitFlashController" type="Node" parent="." unique_id=1517769284]
 script = ExtResource("9_flash")

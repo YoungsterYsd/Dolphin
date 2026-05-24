@@ -1,0 +1,30 @@
+[
+  { "pattern": "Attr_Data.csv",    "output_dir": "Data/FromExcel" },
+  { "pattern": "Char_Attr.csv",    "output_dir": "Data/FromExcel" },
+  { "pattern": "Hero_Data.csv",    "output_dir": "Data/FromExcel" },
+  { "pattern": "Hero_Lev.csv",     "output_dir": "Data/FromExcel" },
+  { "pattern": "Monster_Attr.csv", "output_dir": "Data/FromExcel" },
+  { "pattern": "Monster_Data.csv", "output_dir": "Data/FromExcel" },
+
+  { "pattern": "Item_Data.csv",    "output_dir": "Data/FromExcel" },
+  { "pattern": "Drop_Rule.csv",    "output_dir": "Data/FromExcel" },
+
+  { "pattern": "Frag_Currency.csv","output_dir": "Data/FromExcel" },
+  { "pattern": "Frag_Equip.csv",   "output_dir": "Data/FromExcel" },
+  { "pattern": "Frag_GA.csv",      "output_dir": "Data/FromExcel" },
+  { "pattern": "Frag_GE.csv",      "output_dir": "Data/FromExcel" },
+  { "pattern": "Frag_Quest.csv",   "output_dir": "Data/FromExcel" },
+
+  { "pattern": "attr_plan.csv",    "output_dir": "Data/FromExcel" },
+  { "pattern": "Dmg_Hardness.csv", "output_dir": "Data/FromExcel" },
+
+  { "pattern": "NPC.csv",          "output_dir": "Data/Manual/NPCs" },
+  { "pattern": "Shop.csv",         "output_dir": "Data/Manual/Shops" },
+  { "pattern": "ShopInventory.csv","output_dir": "Data/Manual/Shops" },
+  { "pattern": "Dialogue.csv",     "output_dir": "Data/Manual/Dialogues" },
+  { "pattern": "Portraits.csv",    "output_dir": "Data/Manual/Portraits" },
+  { "pattern": "Quests.csv",       "output_dir": "Data/Manual/Quests" },
+
+  { "pattern": "*.csv",            "output_dir": "Data/FromExcel" },
+  { "pattern": "*.json",           "output_dir": "Data/FromExcel" }
+]

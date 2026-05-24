@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://bplcox64wn3ga"
+
+[deps]
+
+files=["res://Data/FromExcel/Frag_GE.en.translation", "res://Data/FromExcel/Frag_GE.GE.translation"]
+
+source_file="res://Data/FromExcel/Frag_GE.csv"
+dest_files=["res://Data/FromExcel/Frag_GE.en.translation", "res://Data/FromExcel/Frag_GE.GE.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

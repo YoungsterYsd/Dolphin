@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="GameplayEffect" load_steps=4 format=3 uid="uid://dm4laaud2pbbuff"]
+
+[ext_resource type="Script" path="res://Script/GAS/GameplayEffect.gd" id="1_ge"]
+[ext_resource type="Script" path="res://Script/GAS/AttributeModifier.gd" id="2_mod"]
+
+[sub_resource type="Resource" id="Mod_DmgIncMul"]
+script = ExtResource("2_mod")
+attribute = &"dmg_inc_mul"
+op = 0
+magnitude = 0.5
+magnitude_source = 0
+set_by_caller_tag = &""
+
+[resource]
+script = ExtResource("1_ge")
+effect_type = 1
+modifiers = Array[ExtResource("2_mod")]([SubResource("Mod_DmgIncMul")])
+duration = 5.0
+period = 1.0
+granted_tags = Array[StringName]([&"Combat.Buff.PerfectBlock"])
+application_required_tags = Array[StringName]([])
+application_blocked_tags = Array[StringName]([])
+removed_tags = Array[StringName]([])
+cue_tags_while_active = Array[StringName]([&"Cue.Buff.PerfectBlock.Active"])
+display_name = "PerfectBlockBuff (完美格挡触发；5s 内 dmg_inc_mul +0.5)"

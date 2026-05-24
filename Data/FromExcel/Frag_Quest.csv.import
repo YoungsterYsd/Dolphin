@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://qaa0p0owjnh"
+
+[deps]
+
+files=["res://Data/FromExcel/Frag_Quest.en.translation", "res://Data/FromExcel/Frag_Quest.Quest_ID.translation"]
+
+source_file="res://Data/FromExcel/Frag_Quest.csv"
+dest_files=["res://Data/FromExcel/Frag_Quest.en.translation", "res://Data/FromExcel/Frag_Quest.Quest_ID.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

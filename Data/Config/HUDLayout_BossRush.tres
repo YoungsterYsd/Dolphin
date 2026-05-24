@@ -1,0 +1,83 @@
+[gd_resource type="Resource" script_class="HUDLayoutResource" load_steps=15 format=3]
+
+; BossRush 模式 HUD 布局：
+;   - 隐藏小地图 / 任务追踪（节奏紧凑，专注 Boss）
+;   - 保留战斗反馈类全部 widget
+;   - 经验条 + 装备比较卡保留
+;   - 暂时不引入 WaveCounter（MVP 阶段先用 Toast 提示波次）
+
+[ext_resource type="Script" path="res://Script/UI/HUDLayoutResource.gd" id="1_layout"]
+[ext_resource type="Script" path="res://Script/UI/HUDWidgetMount.gd" id="2_mount"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Widgets/ComboWidget.tscn" id="3_combo"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Widgets/ToastWidget.tscn" id="4_toast"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Widgets/KillFeedWidget.tscn" id="5_kill"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Widgets/HitVignetteWidget.tscn" id="6_vignette"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Widgets/BigBannerWidget.tscn" id="7_banner"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Widgets/PickupNotificationWidget.tscn" id="8_pickup"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Widgets/PlayerAvatarWidget.tscn" id="9_avatar"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Widgets/BuffListWidget.tscn" id="10_buff"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Widgets/LevelUpWidget.tscn" id="11_levelup"]
+
+[sub_resource type="Resource" id="m_combo"]
+script = ExtResource("2_mount")
+widget_scene = ExtResource("3_combo")
+slot_tag = &"TopCenter"
+
+[sub_resource type="Resource" id="m_toast"]
+script = ExtResource("2_mount")
+widget_scene = ExtResource("4_toast")
+slot_tag = &"TopRight"
+priority = 10
+
+[sub_resource type="Resource" id="m_kill"]
+script = ExtResource("2_mount")
+widget_scene = ExtResource("5_kill")
+slot_tag = &"TopRight"
+
+[sub_resource type="Resource" id="m_vignette"]
+script = ExtResource("2_mount")
+widget_scene = ExtResource("6_vignette")
+slot_tag = &"Center"
+
+[sub_resource type="Resource" id="m_banner"]
+script = ExtResource("2_mount")
+widget_scene = ExtResource("7_banner")
+slot_tag = &"Center"
+priority = 10
+
+[sub_resource type="Resource" id="m_pickup"]
+script = ExtResource("2_mount")
+widget_scene = ExtResource("8_pickup")
+slot_tag = &"BottomRight"
+
+[sub_resource type="Resource" id="m_avatar"]
+script = ExtResource("2_mount")
+widget_scene = ExtResource("9_avatar")
+slot_tag = &"TopLeft"
+priority = 10
+
+[sub_resource type="Resource" id="m_buff"]
+script = ExtResource("2_mount")
+widget_scene = ExtResource("10_buff")
+slot_tag = &"TopLeft"
+
+[sub_resource type="Resource" id="m_levelup"]
+script = ExtResource("2_mount")
+widget_scene = ExtResource("11_levelup")
+slot_tag = &"Center"
+priority = 20
+
+[resource]
+script = ExtResource("1_layout")
+layout_name = "BossRush"
+mounts = Array[ExtResource("2_mount")]([
+	SubResource("m_combo"),
+	SubResource("m_toast"),
+	SubResource("m_kill"),
+	SubResource("m_vignette"),
+	SubResource("m_banner"),
+	SubResource("m_pickup"),
+	SubResource("m_avatar"),
+	SubResource("m_buff"),
+	SubResource("m_levelup"),
+])

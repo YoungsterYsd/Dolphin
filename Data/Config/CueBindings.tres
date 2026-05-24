@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CueBindings" format=3 uid="uid://cx8f6nxpdloiq"]
+
+[ext_resource type="Script" path="res://Script/Effects/CueBindings.gd" id="1_bindings"]
+[ext_resource type="Script" path="res://Script/Effects/CueBinding.gd" id="2_binding"]
+
+[sub_resource type="Resource" id="Cue_Damage_Default_Hit"]
+script = ExtResource("2_binding")
+cue_tag = &"Cue.Damage.Default.Hit"
+lifetime = 0
+sfx_id = &"hit_normal"
+vfx_scene_path = ""
+vfx_offset_3d = Vector3(0, 0, 0)
+vfx_offset_2d = Vector2(0, 0)
+vfx_lifetime = -1.0
+camera_shake = Vector2(0, 0)
+hit_stop_ms = 0.0
+
+[resource]
+script = ExtResource("1_bindings")
+bindings = Array[Resource]([SubResource("Cue_Damage_Default_Hit")])

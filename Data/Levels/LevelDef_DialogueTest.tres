@@ -1,0 +1,18 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://Script/GameFramework/LevelDef.gd" id="1_lvl"]
+[ext_resource type="PackedScene" path="res://Scenes/Levels/DialogueTestArena.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_lvl")
+level_id = &"dialogue_test"
+display_name = "对话/任务联调测试"
+scene = ExtResource("2_scene")
+bgm = null
+is_boss_room = false
+spawn_marker_id = &""
+loading_tip = "M12 NPC + 对话 + 任务联调测试场"
+fade_out_seconds = 0.35
+fade_in_seconds = 0.35
+fade_color = Color(0, 0, 0, 1)
+init_quest_ids = PackedInt32Array(1)

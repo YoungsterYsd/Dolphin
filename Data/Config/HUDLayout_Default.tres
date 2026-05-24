@@ -1,0 +1,223 @@
+[gd_resource type="Resource" script_class="HUDLayoutResource" load_steps=39 format=3]
+
+[ext_resource type="Script" path="res://Script/UI/HUDLayoutResource.gd" id="1_layout"]
+[ext_resource type="Script" path="res://Script/UI/HUDWidgetMount.gd" id="2_mount"]
+
+; ===== 批次 1（已上线）=====
+[ext_resource type="PackedScene" path="res://Scenes/UI/Widgets/ComboWidget.tscn" id="3_combo"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Widgets/ToastWidget.tscn" id="4_toast"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Widgets/KillFeedWidget.tscn" id="5_kill"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Widgets/HitVignetteWidget.tscn" id="6_vignette"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Widgets/BigBannerWidget.tscn" id="7_banner"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Widgets/PickupNotificationWidget.tscn" id="8_pickup"]
+
+; ===== 批次 2（Phase 3 全量）=====
+[ext_resource type="PackedScene" path="res://Scenes/UI/Widgets/PlayerAvatarWidget.tscn" id="9_avatar"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Widgets/ExperienceBarWidget.tscn" id="10_xp"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Widgets/BuffListWidget.tscn" id="11_buff"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Widgets/MinimapWidget.tscn" id="12_minimap"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Widgets/QuestTrackerWidget.tscn" id="13_quest"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Widgets/AreaNameBannerWidget.tscn" id="14_area"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Widgets/LevelUpWidget.tscn" id="15_levelup"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Widgets/EquipCompareCardWidget.tscn" id="16_compare"]
+
+; ===== Phase 4 调试 =====
+[ext_resource type="PackedScene" path="res://Scenes/UI/Widgets/DebugOverlayWidget.tscn" id="17_debug"]
+
+; ===== M11 对话系统 =====
+[ext_resource type="PackedScene" path="res://Scenes/UI/Widgets/DialogueWidget.tscn" id="18_dlg"]
+
+; ===== M11 NPC 系统 =====
+[ext_resource type="PackedScene" path="res://Scenes/UI/Widgets/InteractionPromptWidget.tscn" id="19_prompt"]
+
+; ===== M11 关卡切换 =====
+[ext_resource type="PackedScene" path="res://Scenes/UI/Widgets/LoadingScreenWidget.tscn" id="20_loading"]
+
+; ===== Phase 2 道具系统 · 货币栏 =====
+[ext_resource type="PackedScene" path="res://Scenes/UI/Widgets/CurrencyBarWidget.tscn" id="21_currency"]
+
+; ===== M12 NPC 对话菜单（≥2 个 Diapack 选项时弹出；A6 决策落地）=====
+[ext_resource type="PackedScene" path="res://Scenes/UI/Widgets/NPCDiapackMenuWidget.tscn" id="22_diapack"]
+
+
+; ===== 批次 1 mounts =====
+[sub_resource type="Resource" id="m_combo"]
+script = ExtResource("2_mount")
+widget_scene = ExtResource("3_combo")
+slot_tag = &"TopCenter"
+priority = 0
+enabled = true
+
+[sub_resource type="Resource" id="m_toast"]
+script = ExtResource("2_mount")
+widget_scene = ExtResource("4_toast")
+slot_tag = &"TopRight"
+priority = 10
+enabled = true
+
+[sub_resource type="Resource" id="m_kill"]
+script = ExtResource("2_mount")
+widget_scene = ExtResource("5_kill")
+slot_tag = &"TopRight"
+priority = 0
+enabled = true
+
+[sub_resource type="Resource" id="m_vignette"]
+script = ExtResource("2_mount")
+widget_scene = ExtResource("6_vignette")
+slot_tag = &"Center"
+priority = 0
+enabled = true
+
+[sub_resource type="Resource" id="m_banner"]
+script = ExtResource("2_mount")
+widget_scene = ExtResource("7_banner")
+slot_tag = &"Center"
+priority = 10
+enabled = true
+
+[sub_resource type="Resource" id="m_pickup"]
+script = ExtResource("2_mount")
+widget_scene = ExtResource("8_pickup")
+slot_tag = &"BottomRight"
+priority = 0
+enabled = true
+
+; ===== 批次 2 mounts =====
+; 玩家头像 → 左上
+[sub_resource type="Resource" id="m_avatar"]
+script = ExtResource("2_mount")
+widget_scene = ExtResource("9_avatar")
+slot_tag = &"TopLeft"
+priority = 10
+enabled = true
+
+; 经验条（ExperienceBarWidget 自治模式：监听 character_initialized 自动绑定 player.asc）
+[sub_resource type="Resource" id="m_xp"]
+script = ExtResource("2_mount")
+widget_scene = ExtResource("10_xp")
+slot_tag = &"TopLeft"
+priority = 5
+enabled = true
+
+; Buff 列表 → 左上
+[sub_resource type="Resource" id="m_buff"]
+script = ExtResource("2_mount")
+widget_scene = ExtResource("11_buff")
+slot_tag = &"TopLeft"
+priority = 0
+enabled = true
+
+; 小地图 → 右上（与 Toast/KillFeed 同 slot 但自身锚点不重叠）
+[sub_resource type="Resource" id="m_minimap"]
+script = ExtResource("2_mount")
+widget_scene = ExtResource("12_minimap")
+slot_tag = &"TopRight"
+priority = 20
+enabled = true
+
+; 任务追踪 → 右上下方（M11 任务系统接入后启用）
+[sub_resource type="Resource" id="m_quest"]
+script = ExtResource("2_mount")
+widget_scene = ExtResource("13_quest")
+slot_tag = &"TopRight"
+priority = 5
+enabled = true
+
+; 区域名横幅 → 顶部居中
+[sub_resource type="Resource" id="m_area"]
+script = ExtResource("2_mount")
+widget_scene = ExtResource("14_area")
+slot_tag = &"TopCenter"
+priority = 5
+enabled = true
+
+; 升级横幅 → 中央偏上（前置依赖：level 属性）
+[sub_resource type="Resource" id="m_levelup"]
+script = ExtResource("2_mount")
+widget_scene = ExtResource("15_levelup")
+slot_tag = &"Center"
+priority = 20
+enabled = true
+
+; 装备比较卡 → 中央（业务侧 show_compare 触发）
+[sub_resource type="Resource" id="m_compare"]
+script = ExtResource("2_mount")
+widget_scene = ExtResource("16_compare")
+slot_tag = &"Center"
+priority = 5
+enabled = true
+
+; Phase 4 Debug Overlay → 任意 slot（top_level=true，自定位左下；debug_only 自动控制可见性）
+[sub_resource type="Resource" id="m_debug"]
+script = ExtResource("2_mount")
+widget_scene = ExtResource("17_debug")
+slot_tag = &"BottomLeft"
+priority = 0
+enabled = true
+
+; M11 对话框 → 任意 slot（top_level=true，自定位底部全宽；_ready 设 visible=false，对话开始时唤起）
+[sub_resource type="Resource" id="m_dlg"]
+script = ExtResource("2_mount")
+widget_scene = ExtResource("18_dlg")
+slot_tag = &"BottomCenter"
+priority = 100
+enabled = true
+
+; M11 NPC 头顶提示 → 任意 slot（top_level=true，自定位 NPC 头顶）
+[sub_resource type="Resource" id="m_prompt"]
+script = ExtResource("2_mount")
+widget_scene = ExtResource("19_prompt")
+slot_tag = &"Center"
+priority = 50
+enabled = true
+
+; M11 关卡切换加载界面 → 任意 slot（top_level=true，自动 reparent 到 L6_Loading 层）
+[sub_resource type="Resource" id="m_loading"]
+script = ExtResource("2_mount")
+widget_scene = ExtResource("20_loading")
+slot_tag = &"Center"
+priority = 200
+enabled = true
+
+; Phase 2 货币栏 → 右上（自治模式：启动时遍历 Currency item 自动生成行；订阅 currency_changed 增量更新）
+[sub_resource type="Resource" id="m_currency"]
+script = ExtResource("2_mount")
+widget_scene = ExtResource("21_currency")
+slot_tag = &"TopRight"
+priority = 15
+enabled = true
+
+; M12 NPC 对话菜单 → 任意 slot（top_level=true，自定位居中；reparent 到 L2_GameMenu）
+[sub_resource type="Resource" id="m_diapack"]
+script = ExtResource("2_mount")
+widget_scene = ExtResource("22_diapack")
+slot_tag = &"Center"
+priority = 90
+enabled = true
+
+[resource]
+script = ExtResource("1_layout")
+layout_name = "Default"
+mounts = Array[ExtResource("2_mount")]([
+	SubResource("m_combo"),
+	SubResource("m_toast"),
+	SubResource("m_kill"),
+	SubResource("m_vignette"),
+	SubResource("m_banner"),
+	SubResource("m_pickup"),
+	SubResource("m_avatar"),
+	SubResource("m_xp"),
+	SubResource("m_buff"),
+	SubResource("m_minimap"),
+	SubResource("m_quest"),
+	SubResource("m_area"),
+	SubResource("m_levelup"),
+	SubResource("m_compare"),
+	SubResource("m_debug"),
+	SubResource("m_dlg"),
+	SubResource("m_prompt"),
+	SubResource("m_loading"),
+	SubResource("m_currency"),
+	SubResource("m_diapack"),
+])

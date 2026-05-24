@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://ccpkv61uvqdhy"
+
+[deps]
+
+files=["res://Data/FromExcel/Hero_Data.en.translation", "res://Data/FromExcel/Hero_Data.Hero.translation", "res://Data/FromExcel/Hero_Data.attr.translation"]
+
+source_file="res://Data/FromExcel/Hero_Data.csv"
+dest_files=["res://Data/FromExcel/Hero_Data.en.translation", "res://Data/FromExcel/Hero_Data.Hero.translation", "res://Data/FromExcel/Hero_Data.attr.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

@@ -21,5 +21,5 @@ extends SkillKeyframe
 @export var kind: StringName = SkillEventKind.SFX_PLAY
 
 ## 事件参数。结构按 kind 不同（详见类注释）。
-## 在编辑器内 Inspector 难以可视化编辑 Dictionary，M7.4+ 编辑器会按 kind 提供专门 form。
+## 在编辑器内 Inspector 难以可视化编辑 Dictionary，编辑器会按 kind 提供专门 form。
 @export var payload: Dictionary = {}

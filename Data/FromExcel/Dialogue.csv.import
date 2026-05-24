@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dnmd44gnrf1hi"
+
+[deps]
+
+files=["res://Data/FromExcel/Dialogue.sub.translation", "res://Data/FromExcel/Dialogue.Text.translation", "res://Data/FromExcel/Dialogue.Branch.translation", "res://Data/FromExcel/Dialogue.Branch_ID.translation", "res://Data/FromExcel/Dialogue.Branch.translation"]
+
+source_file="res://Data/FromExcel/Dialogue.csv"
+dest_files=["res://Data/FromExcel/Dialogue.sub.translation", "res://Data/FromExcel/Dialogue.Text.translation", "res://Data/FromExcel/Dialogue.Branch.translation", "res://Data/FromExcel/Dialogue.Branch_ID.translation", "res://Data/FromExcel/Dialogue.Branch.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

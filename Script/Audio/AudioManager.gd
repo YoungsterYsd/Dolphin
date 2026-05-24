@@ -1,8 +1,8 @@
 ## 音频管理器（Autoload 单例）。
 ##
-## M1 留三总线接口（BGM / SFX / UI），M5 起逐步实装。
-## M8 起：从 ConfigCenter 加载 SfxBindings.tres，按 sfx_id 查表播放；
-##       内部维护 SFX AudioStreamPlayer 池（默认 8 路并发）。
+## 三总线音频管理（BGM / SFX / UI）。
+## 从 ConfigCenter 加载 SfxBindings.tres，按 sfx_id 查表播放；
+## 内部维护 SFX AudioStreamPlayer 池（默认 8 路并发）。
 ##
 ## 设计：每条总线一个 AudioStreamPlayer 或一池；SFX 用对象池避免单 player 抢断。
 extends Node
@@ -36,12 +36,8 @@ func _ready() -> void:
 func _on_skill_event_sfx(sfx_id: StringName, _caster: Node, _payload: Dictionary) -> void:
 	if sfx_id == &"":
 		return
-	# M8：通过 ConfigCenter 查表
-	var cfg: Node = get_tree().root.get_node_or_null(^"ConfigCenter")
-	if cfg == null:
-		GameLogger.warn("Audio", "ConfigCenter not found, can't resolve sfx_id=%s" % sfx_id)
-		return
-	var stream: AudioStream = cfg.get_sfx_stream(sfx_id)
+	# R-Core：ConfigCenter 走 class_name 强类型直访
+	var stream: AudioStream = ConfigCenter.get_sfx_stream(sfx_id)
 	if stream == null:
 		GameLogger.info("Audio", "sfx_id not bound in SfxBindings.tres: %s" % sfx_id)
 		return
@@ -52,7 +48,7 @@ func _on_skill_event_sfx(sfx_id: StringName, _caster: Node, _payload: Dictionary
 # 公开 API
 # ─────────────────────────────────────────────────────────────
 
-## 播放 BGM。M8 简化实装：直接切歌（无淡入淡出）。
+## 播放 BGM（直接切歌，无淡入淡出）。
 func play_bgm(stream: AudioStream, _fade_in: float = 0.0) -> void:
 	if _bgm_player == null:
 		return
@@ -90,10 +86,8 @@ func play_ui(stream: AudioStream, volume_db: float = 0.0) -> void:
 
 ## 便捷：按 sfx_id 播放 SFX（外部业务可直接调）。
 func play_sfx_by_id(sfx_id: StringName, volume_db: float = 0.0) -> void:
-	var cfg: Node = get_tree().root.get_node_or_null(^"ConfigCenter")
-	if cfg == null:
-		return
-	var stream: AudioStream = cfg.get_sfx_stream(sfx_id)
+	# R-Core：ConfigCenter 走 class_name 强类型直访
+	var stream: AudioStream = ConfigCenter.get_sfx_stream(sfx_id)
 	play_sfx(stream, volume_db)
 
 

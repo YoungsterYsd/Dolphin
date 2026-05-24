@@ -1,5 +1,5 @@
 @tool
-## 技能编辑器预览舞台配置（M7.7）。
+## 技能编辑器预览舞台配置。
 ##
 ## 编辑器内嵌预览的可调参数全部走配置表（R-DATA-02 合规）。
 ## 仅供 [code]addons/skill_editor/dock/preview/*[/code] 读写；运行时不依赖。

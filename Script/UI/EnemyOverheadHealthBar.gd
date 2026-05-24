@@ -1,7 +1,9 @@
-## 头顶血条单体（M8 引入）。
+## 头顶血条单体。
 ##
 ## 由 [OverheadHealthBarManager] 创建并管理；外部不直接 new。
 ## 自绘 2D 矩形：背景 + 红色填充；每帧位置 = enemy 投影到屏幕的坐标 + y_offset。
+##
+## Phase 2：投影逻辑改用 [WorldProjector] 静态工具，便于复用。
 class_name EnemyOverheadHealthBar
 extends Control
 
@@ -35,15 +37,13 @@ func bind_to(enemy: Node, asc: AbilitySystemComponent, cfg: HealthBarConfig, is_
 	custom_minimum_size = cfg.overhead_bar_size
 	size = cfg.overhead_bar_size
 	# 监听属性变化
-	if EventBus.has_signal(&"attribute_changed"):
-		EventBus.attribute_changed.connect(_on_attribute_changed)
+	EventBus.attribute_changed.connect(_on_attribute_changed)
 	# 监听敌人死亡：自动隐藏（Manager 还会 queue_free 本节点）
-	if EventBus.has_signal(&"enemy_died"):
-		EventBus.enemy_died.connect(_on_enemy_died)
-	# 初始 HP
-	if asc != null and asc.attribute_set != null:
-		_max_hp = asc.attribute_set.get_attr(&"max_health")
-		_cur_hp = asc.attribute_set.get_attr(&"health")
+	EventBus.enemy_died.connect(_on_enemy_died)
+	# 初始 HP（R-ASC 重构：用 ASC.get_attribute 跨 Set 查找替代 attribute_set 老接口）
+	if asc != null:
+		_max_hp = asc.get_attribute(&"max_health", 0.0)
+		_cur_hp = asc.get_attribute(&"health", 0.0)
 	visible = true
 	queue_redraw()
 
@@ -71,20 +71,15 @@ func _update_position() -> void:
 	var vp := get_viewport()
 	if vp == null:
 		return
-	var world_pos: Variant = null
-	if _enemy is Node2D:
-		world_pos = (_enemy as Node2D).global_position
-	elif _enemy is Node3D:
-		world_pos = (_enemy as Node3D).global_position
-	if world_pos == null:
+	if not (_enemy is Node2D or _enemy is Node3D):
 		return
-	var screen_pos: Vector2 = _project(world_pos, vp)
+	var screen_pos: Vector2 = WorldProjector.project(_enemy, vp)
 	if screen_pos == Vector2.INF:
 		visible = false
 		return
 	# 显示距离过滤
 	if _cfg != null and _cfg.overhead_show_distance > 0.0:
-		var cam_dist: float = _distance_to_camera(world_pos)
+		var cam_dist: float = WorldProjector.distance_to_camera(_enemy, vp)
 		if cam_dist > _cfg.overhead_show_distance:
 			visible = false
 			return
@@ -134,42 +129,4 @@ func _on_enemy_died(enemy: Node) -> void:
 		visible = false
 
 
-# ─────────────────────────────────────────────────────────────
-# 投影
-# ─────────────────────────────────────────────────────────────
-
-func _project(world_pos: Variant, vp: Viewport) -> Vector2:
-	if world_pos is Vector2:
-		var wp2: Vector2 = world_pos
-		var cam2d: Camera2D = vp.get_camera_2d()
-		if cam2d == null:
-			return wp2
-		var screen_center: Vector2 = Vector2(vp.get_visible_rect().size) * 0.5
-		return screen_center + (wp2 - cam2d.global_position) * cam2d.zoom
-	if world_pos is Vector3:
-		var wp3: Vector3 = world_pos
-		var cam3d: Camera3D = vp.get_camera_3d()
-		if cam3d == null:
-			return Vector2.INF
-		# 摄像机背面剔除
-		if cam3d.is_position_behind(wp3):
-			return Vector2.INF
-		return cam3d.unproject_position(wp3)
-	return Vector2.INF
-
-
-func _distance_to_camera(world_pos: Variant) -> float:
-	var vp := get_viewport()
-	if vp == null:
-		return 0.0
-	if world_pos is Vector2:
-		var cam2d: Camera2D = vp.get_camera_2d()
-		if cam2d == null:
-			return 0.0
-		return (world_pos as Vector2).distance_to(cam2d.global_position)
-	if world_pos is Vector3:
-		var cam3d: Camera3D = vp.get_camera_3d()
-		if cam3d == null:
-			return 0.0
-		return (world_pos as Vector3).distance_to(cam3d.global_position)
-	return 0.0
+# 注：原 _project / _distance_to_camera 已抽到 WorldProjector 静态工具（Phase 2 P2-T3/T4）

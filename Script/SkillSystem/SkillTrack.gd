@@ -1,7 +1,7 @@
 @tool
 ## 轨道基类。
 ##
-## M7 决策 q2=C：仅 2 类轨道 —— [AnimationTrack] / [EventTrack]。
+## 仅 2 类轨道：[AnimationTrack] / [EventTrack]。
 ## 子类持具体类型的关键帧数组。
 class_name SkillTrack
 extends Resource

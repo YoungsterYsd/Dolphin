@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://cacp45o6368s2"
+
+[deps]
+
+files=["res://Data/FromExcel/Item_Data.en.translation", "res://Data/FromExcel/Item_Data.Name.translation", "res://Data/FromExcel/Item_Data.Desc.translation", "res://Data/FromExcel/Item_Data.Fragment.translation", "res://Data/FromExcel/Item_Data.Rarity.translation", "res://Data/FromExcel/Item_Data.Icon.translation", "res://Data/FromExcel/Item_Data.Stack.translation", "res://Data/FromExcel/Item_Data.Consumable.translation"]
+
+source_file="res://Data/FromExcel/Item_Data.csv"
+dest_files=["res://Data/FromExcel/Item_Data.en.translation", "res://Data/FromExcel/Item_Data.Name.translation", "res://Data/FromExcel/Item_Data.Desc.translation", "res://Data/FromExcel/Item_Data.Fragment.translation", "res://Data/FromExcel/Item_Data.Rarity.translation", "res://Data/FromExcel/Item_Data.Icon.translation", "res://Data/FromExcel/Item_Data.Stack.translation", "res://Data/FromExcel/Item_Data.Consumable.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

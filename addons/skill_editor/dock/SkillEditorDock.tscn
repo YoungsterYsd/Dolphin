@@ -2,170 +2,304 @@
 
 [ext_resource type="Script" path="res://addons/skill_editor/dock/SkillEditorDock.gd" id="1_dock"]
 [ext_resource type="Script" path="res://addons/skill_editor/dock/TimelineView.gd" id="2_view"]
-[ext_resource type="Script" path="res://addons/skill_editor/dock/preview/PreviewStage.gd" id="3_preview"]
+[ext_resource type="Script" path="res://addons/skill_editor/dock/TrackListView.gd" id="3_tracks"]
 
 [node name="SkillEditorDock" type="VBoxContainer"]
-custom_minimum_size = Vector2(0, 480)
+custom_minimum_size = Vector2(0, 360)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 4
 script = ExtResource("1_dock")
 
-[node name="Toolbar" type="HBoxContainer" parent="."]
+[node name="TopPreviewSplit" type="VSplitContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+split_offset = 180
+
+[node name="PreviewBox" type="VBoxContainer" parent="TopPreviewSplit"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="PreviewHeader" type="HBoxContainer" parent="TopPreviewSplit/PreviewBox"]
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
 
-[node name="BtnNew" type="Button" parent="Toolbar"]
+[node name="PreviewLabel" type="Label" parent="TopPreviewSplit/PreviewBox/PreviewHeader"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Preview"
+vertical_alignment = 1
+
+[node name="BtnPopOut" type="Button" parent="TopPreviewSplit/PreviewBox/PreviewHeader"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 24)
+layout_mode = 2
+size_flags_vertical = 1
+text = "🪟 Pop"
+flat = true
+tooltip_text = "把预览弹到独立窗口（再次点击恢复内嵌）"
+
+[node name="PreviewSlot" type="PanelContainer" parent="TopPreviewSplit/PreviewBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MainArea" type="VBoxContainer" parent="TopPreviewSplit"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+
+[node name="ToolbarRow1" type="HBoxContainer" parent="TopPreviewSplit/MainArea"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="PlayGroup" type="HBoxContainer" parent="TopPreviewSplit/MainArea/ToolbarRow1"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="BtnPlay" type="Button" parent="TopPreviewSplit/MainArea/ToolbarRow1/PlayGroup"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "New"
+text = "▶"
+tooltip_text = "播放预览（Space 切换）"
 
-[node name="BtnOpen" type="Button" parent="Toolbar"]
+[node name="BtnPause" type="Button" parent="TopPreviewSplit/MainArea/ToolbarRow1/PlayGroup"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Open"
+text = "⏸"
+tooltip_text = "暂停预览（Space 切换）"
 
-[node name="BtnSave" type="Button" parent="Toolbar"]
+[node name="BtnReset" type="Button" parent="TopPreviewSplit/MainArea/ToolbarRow1/PlayGroup"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Save"
+text = "⏮"
+tooltip_text = "复位 playhead 到 0"
 
-[node name="VSep1" type="VSeparator" parent="Toolbar"]
+[node name="LoopCheck" type="CheckBox" parent="TopPreviewSplit/MainArea/ToolbarRow1/PlayGroup"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Loop"
+tooltip_text = "循环播放"
+
+[node name="VSep1" type="VSeparator" parent="TopPreviewSplit/MainArea/ToolbarRow1"]
 layout_mode = 2
 
-[node name="DurationLabel" type="Label" parent="Toolbar"]
+[node name="DisplayGroup" type="HBoxContainer" parent="TopPreviewSplit/MainArea/ToolbarRow1"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="ShowHitboxBandCheck" type="CheckBox" parent="TopPreviewSplit/MainArea/ToolbarRow1/DisplayGroup"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Hitbox"
+button_pressed = true
+tooltip_text = "在时间轴上标出 Hitbox 启用区间"
+
+[node name="MuteCheck" type="CheckBox" parent="TopPreviewSplit/MainArea/ToolbarRow1/DisplayGroup"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Mute"
+tooltip_text = "预览时静音 SFX"
+
+[node name="VSep2" type="VSeparator" parent="TopPreviewSplit/MainArea/ToolbarRow1"]
+layout_mode = 2
+
+[node name="DurationGroup" type="HBoxContainer" parent="TopPreviewSplit/MainArea/ToolbarRow1"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="DurationLabel" type="Label" parent="TopPreviewSplit/MainArea/ToolbarRow1/DurationGroup"]
 layout_mode = 2
 text = "Duration"
 
-[node name="DurationSpin" type="SpinBox" parent="Toolbar"]
+[node name="DurationSpin" type="SpinBox" parent="TopPreviewSplit/MainArea/ToolbarRow1/DurationGroup"]
 unique_name_in_owner = true
 layout_mode = 2
 min_value = 0.05
 max_value = 30.0
 step = 0.05
 value = 1.0
+suffix = "s"
 
-[node name="VSep2" type="VSeparator" parent="Toolbar"]
+[node name="VSep3" type="VSeparator" parent="TopPreviewSplit/MainArea/ToolbarRow1"]
 layout_mode = 2
 
-[node name="BtnPlay" type="Button" parent="Toolbar"]
-unique_name_in_owner = true
+[node name="CamGroup" type="HBoxContainer" parent="TopPreviewSplit/MainArea/ToolbarRow1"]
 layout_mode = 2
-text = "▶ Play"
+theme_override_constants/separation = 2
 
-[node name="BtnPause" type="Button" parent="Toolbar"]
-unique_name_in_owner = true
+[node name="CamLabel" type="Label" parent="TopPreviewSplit/MainArea/ToolbarRow1/CamGroup"]
 layout_mode = 2
-text = "⏸ Pause"
+text = "Cam:"
 
-[node name="BtnReset" type="Button" parent="Toolbar"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "⏮ Reset"
-
-[node name="LoopCheck" type="CheckBox" parent="Toolbar"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Loop"
-
-[node name="VSep3" type="VSeparator" parent="Toolbar"]
-layout_mode = 2
-
-[node name="MuteCheck" type="CheckBox" parent="Toolbar"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Mute SFX"
-
-[node name="BtnZoomOut" type="Button" parent="Toolbar"]
+[node name="BtnZoomOut" type="Button" parent="TopPreviewSplit/MainArea/ToolbarRow1/CamGroup"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "−"
-tooltip_text = "Preview zoom out"
+tooltip_text = "预览相机缩小"
 
-[node name="BtnZoomIn" type="Button" parent="Toolbar"]
+[node name="BtnZoomIn" type="Button" parent="TopPreviewSplit/MainArea/ToolbarRow1/CamGroup"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "+"
-tooltip_text = "Preview zoom in"
+tooltip_text = "预览相机放大"
 
-[node name="BtnCamReset" type="Button" parent="Toolbar"]
+[node name="BtnCamReset" type="Button" parent="TopPreviewSplit/MainArea/ToolbarRow1/CamGroup"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "⌂"
-tooltip_text = "Reset preview camera"
+tooltip_text = "重置预览相机"
 
-[node name="ShowHitboxBandCheck" type="CheckBox" parent="Toolbar"]
+[node name="VSep4" type="VSeparator" parent="TopPreviewSplit/MainArea/ToolbarRow1"]
+layout_mode = 2
+
+[node name="FileGroup" type="HBoxContainer" parent="TopPreviewSplit/MainArea/ToolbarRow1"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="BtnNew" type="Button" parent="TopPreviewSplit/MainArea/ToolbarRow1/FileGroup"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Hitbox Band"
-button_pressed = true
+text = "New"
+tooltip_text = "新建技能时间轴"
 
-[node name="VSep4" type="VSeparator" parent="Toolbar"]
+[node name="BtnOpen" type="Button" parent="TopPreviewSplit/MainArea/ToolbarRow1/FileGroup"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Open"
+tooltip_text = "打开已有 SkillTimeline.tres"
+
+[node name="BtnSave" type="Button" parent="TopPreviewSplit/MainArea/ToolbarRow1/FileGroup"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Save"
+tooltip_text = "保存当前编辑中的时间轴"
+
+[node name="VSep5" type="VSeparator" parent="TopPreviewSplit/MainArea/ToolbarRow1"]
 layout_mode = 2
 
-[node name="ToolbarLabel" type="Label" parent="Toolbar"]
+[node name="ToolbarLabel" type="Label" parent="TopPreviewSplit/MainArea/ToolbarRow1"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "—"
+horizontal_alignment = 0
+vertical_alignment = 1
+clip_text = true
+text_overrun_behavior = 3
+tooltip_text = "当前打开的时间轴文件路径与 skill_id"
 
-[node name="MainSplit" type="HSplitContainer" parent="."]
+[node name="BtnPreviewWindow" type="Button" parent="TopPreviewSplit/MainArea/ToolbarRow1"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "🖥 Open 3D Preview"
+tooltip_text = "（已废弃）预览改为内嵌于右侧 Preview 面板；Pop 按钮可弹出独立窗口"
+
+[node name="HSepLine" type="HSeparator" parent="TopPreviewSplit/MainArea"]
+layout_mode = 2
+
+[node name="MainSplit" type="HSplitContainer" parent="TopPreviewSplit/MainArea"]
 layout_mode = 2
 size_flags_vertical = 3
 split_offset = 200
 
-[node name="LeftPanel" type="VBoxContainer" parent="MainSplit"]
+[node name="LeftPanel" type="VBoxContainer" parent="TopPreviewSplit/MainArea/MainSplit"]
 layout_mode = 2
+theme_override_constants/separation = 0
 
-[node name="LeftLabel" type="Label" parent="MainSplit/LeftPanel"]
+[node name="LeftHeader" type="HBoxContainer" parent="TopPreviewSplit/MainArea/MainSplit/LeftPanel"]
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="LeftLabel" type="Label" parent="TopPreviewSplit/MainArea/MainSplit/LeftPanel/LeftHeader"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
 text = "Tracks"
+vertical_alignment = 1
 
-[node name="BtnAddAnimTrack" type="Button" parent="MainSplit/LeftPanel"]
+[node name="BtnAddTrack" type="MenuButton" parent="TopPreviewSplit/MainArea/MainSplit/LeftPanel/LeftHeader"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
-text = "+ Animation Track"
+size_flags_vertical = 1
+text = "+"
+flat = false
+tooltip_text = "添加轨道"
 
-[node name="BtnAddEventTrack" type="Button" parent="MainSplit/LeftPanel"]
+[node name="BtnAddAnimTrack" type="Button" parent="TopPreviewSplit/MainArea/MainSplit/LeftPanel/LeftHeader"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
-text = "+ Event Track"
+text = "+ Anim"
 
-[node name="TrackList" type="ItemList" parent="MainSplit/LeftPanel"]
+[node name="BtnAddEventTrack" type="Button" parent="TopPreviewSplit/MainArea/MainSplit/LeftPanel/LeftHeader"]
 unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "+ Event"
+
+[node name="TrackList" type="Control" parent="TopPreviewSplit/MainArea/MainSplit/LeftPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 size_flags_vertical = 3
+focus_mode = 2
+script = ExtResource("3_tracks")
 
-[node name="CenterRightSplit" type="HSplitContainer" parent="MainSplit"]
+[node name="CenterRightSplit" type="HSplitContainer" parent="TopPreviewSplit/MainArea/MainSplit"]
 layout_mode = 2
 size_flags_horizontal = 3
-split_offset = -260
+split_offset = -520
 
-[node name="CenterColumn" type="VSplitContainer" parent="MainSplit/CenterRightSplit"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-split_offset = 220
-
-[node name="PreviewStage" type="Control" parent="MainSplit/CenterRightSplit/CenterColumn"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(400, 220)
+[node name="CenterColumn" type="VBoxContainer" parent="TopPreviewSplit/MainArea/MainSplit/CenterRightSplit"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource("3_preview")
+theme_override_constants/separation = 0
 
-[node name="TimelineView" type="Control" parent="MainSplit/CenterRightSplit/CenterColumn"]
+[node name="TimelineHeader" type="HBoxContainer" parent="TopPreviewSplit/MainArea/MainSplit/CenterRightSplit/CenterColumn"]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+
+[node name="TimelineLabel" type="Label" parent="TopPreviewSplit/MainArea/MainSplit/CenterRightSplit/CenterColumn/TimelineHeader"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Timeline"
+vertical_alignment = 1
+
+[node name="TimelineHint" type="Label" parent="TopPreviewSplit/MainArea/MainSplit/CenterRightSplit/CenterColumn/TimelineHeader"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Space=Play  |  拖标尺=Scrub  |  Ctrl+滚轮=缩放  |  F=Fit"
+modulate = Color(1, 1, 1, 0.55)
+theme_override_font_sizes/font_size = 12
+vertical_alignment = 1
+
+[node name="TimelineView" type="Control" parent="TopPreviewSplit/MainArea/MainSplit/CenterRightSplit/CenterColumn"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(400, 180)
+custom_minimum_size = Vector2(400, 160)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 2
 script = ExtResource("2_view")
 
-[node name="EmptyHint" type="Label" parent="MainSplit/CenterRightSplit/CenterColumn/TimelineView"]
+[node name="EmptyHint" type="Label" parent="TopPreviewSplit/MainArea/MainSplit/CenterRightSplit/CenterColumn/TimelineView"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
@@ -182,12 +316,31 @@ grow_vertical = 2
 text = "No timeline open. Click New / Open in toolbar."
 horizontal_alignment = 1
 vertical_alignment = 1
+modulate = Color(1, 1, 1, 0.65)
 
-[node name="RightPanel" type="ScrollContainer" parent="MainSplit/CenterRightSplit"]
-custom_minimum_size = Vector2(260, 0)
+[node name="RightPanel" type="VBoxContainer" parent="TopPreviewSplit/MainArea/MainSplit/CenterRightSplit"]
+layout_mode = 2
+custom_minimum_size = Vector2(520, 0)
+theme_override_constants/separation = 0
+
+[node name="RightHeader" type="HBoxContainer" parent="TopPreviewSplit/MainArea/MainSplit/CenterRightSplit/RightPanel"]
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
 
-[node name="InspectorRoot" type="VBoxContainer" parent="MainSplit/CenterRightSplit/RightPanel"]
+[node name="RightLabel" type="Label" parent="TopPreviewSplit/MainArea/MainSplit/CenterRightSplit/RightPanel/RightHeader"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Inspector"
+vertical_alignment = 1
+
+[node name="RightScroll" type="ScrollContainer" parent="TopPreviewSplit/MainArea/MainSplit/CenterRightSplit/RightPanel"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="InspectorRoot" type="VBoxContainer" parent="TopPreviewSplit/MainArea/MainSplit/CenterRightSplit/RightPanel/RightScroll"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 4

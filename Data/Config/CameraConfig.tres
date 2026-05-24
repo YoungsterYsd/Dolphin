@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CameraConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Script/Data/CameraConfig.gd" id="1_cfg"]
+
+[resource]
+script = ExtResource("1_cfg")
+pitch_deg = -55.0
+distance = 8.0
+fov_deg = 45.0
+follow_smoothing = 8.0
+shake_intensity_multiplier = 1.0
+target_y_offset = 0.5
+use_orthogonal = false
+orthogonal_size = 10.0

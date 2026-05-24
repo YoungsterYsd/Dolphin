@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://lt71x3tlgyt3"
+
+[deps]
+
+files=["res://Data/FromExcel/Quest_Data.sub.translation", "res://Data/FromExcel/Quest_Data.Name.translation", "res://Data/FromExcel/Quest_Data.Desc.translation", "res://Data/FromExcel/Quest_Data.Kind.translation", "res://Data/FromExcel/Quest_Data.ID.translation", "res://Data/FromExcel/Quest_Data.Num.translation", "res://Data/FromExcel/Quest_Data.Drop_ID.translation", "res://Data/FromExcel/Quest_Data.Deliver_ID.translation"]
+
+source_file="res://Data/FromExcel/Quest_Data.csv"
+dest_files=["res://Data/FromExcel/Quest_Data.sub.translation", "res://Data/FromExcel/Quest_Data.Name.translation", "res://Data/FromExcel/Quest_Data.Desc.translation", "res://Data/FromExcel/Quest_Data.Kind.translation", "res://Data/FromExcel/Quest_Data.ID.translation", "res://Data/FromExcel/Quest_Data.Num.translation", "res://Data/FromExcel/Quest_Data.Drop_ID.translation", "res://Data/FromExcel/Quest_Data.Deliver_ID.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

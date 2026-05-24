@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="LightingConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Script/Data/LightingConfig.gd" id="1_cfg"]
+
+[resource]
+script = ExtResource("1_cfg")
+main_light_color = Color(1, 0.95, 0.85, 1)
+main_light_energy = 1.2
+main_light_rotation_deg = Vector3(-45, 30, 0)
+shadow_enabled = true
+ambient_color = Color(0.5, 0.55, 0.65, 1)
+ambient_energy = 0.3
+sky_horizon_color = Color(0.6, 0.65, 0.75, 1)
+sky_top_color = Color(0.4, 0.5, 0.7, 1)
+fog_enabled = true
+fog_density = 0.005
+fog_light_color = Color(0.7, 0.8, 0.9, 1)

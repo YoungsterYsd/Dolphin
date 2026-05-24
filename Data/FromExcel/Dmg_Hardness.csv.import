@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://b125hlg6ipdn1"
+
+[deps]
+
+files=["res://Data/FromExcel/Dmg_Hardness.en.translation", "res://Data/FromExcel/Dmg_Hardness.DmgPercent.translation", "res://Data/FromExcel/Dmg_Hardness.Hardness.translation"]
+
+source_file="res://Data/FromExcel/Dmg_Hardness.csv"
+dest_files=["res://Data/FromExcel/Dmg_Hardness.en.translation", "res://Data/FromExcel/Dmg_Hardness.DmgPercent.translation", "res://Data/FromExcel/Dmg_Hardness.Hardness.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

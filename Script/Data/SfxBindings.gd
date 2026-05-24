@@ -1,7 +1,7 @@
-## SFX 音效绑定表（M8 引入）。
+## SFX 音效绑定表。
 ##
 ## sfx_id → AudioStream 映射。AudioManager 启动时加载。
-## EventKeyframe.SFX_PLAY 的 payload 必须含 `{sfx_id: StringName}` 走查表（M8 起强制）。
+## EventKeyframe.SFX_PLAY 的 payload 必须含 `{sfx_id: StringName}` 走查表。
 class_name SfxBindings
 extends Resource
 

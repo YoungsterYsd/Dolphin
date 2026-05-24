@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://c57tvld5xis7v"
+
+[deps]
+
+files=["res://Data/FromExcel/Condition.sub.translation", "res://Data/FromExcel/Condition.Type.translation", "res://Data/FromExcel/Condition.Param.translation"]
+
+source_file="res://Data/FromExcel/Condition.csv"
+dest_files=["res://Data/FromExcel/Condition.sub.translation", "res://Data/FromExcel/Condition.Type.translation", "res://Data/FromExcel/Condition.Param.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

@@ -1,0 +1,5 @@
+﻿id,sub_id,Name,Desc,Fragment,Rarity,Icon,Stack,Consumable
+1,,经验值,累积后可以升级,{Currency},1,res://Content/Icons/Items/Currency_Exp.png,0,0
+2,,金币,王国流通的货币,{Currency},1,res://Content/Icons/Items/Currency_Coin.png,0,0
+4,,任务道具,不太妙啊,{Quest},2,res://Content/Icons/Items/Quest_TestKey.png,99,1
+5,,测试装备,好好好,"{Equip,GA,GE}",5,res://Content/Icons/Items/Equip_TestSword.png,1,1

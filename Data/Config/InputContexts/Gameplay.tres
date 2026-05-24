@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="InputContext" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Script/Input/InputContext.gd" id="1_ctx"]
+
+[resource]
+script = ExtResource("1_ctx")
+context_id = &"Gameplay"
+explicit_allowed = []
+explicit_blocked = []
+allow_all = true
+display_name = "Gameplay 默认（全部允许）"

@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://bfoandophuyci"
+
+[deps]
+
+files=["res://Data/FromExcel/Hero_Lev.en.translation", "res://Data/FromExcel/Hero_Lev.Lev.translation", "res://Data/FromExcel/Hero_Lev.Exp.translation"]
+
+source_file="res://Data/FromExcel/Hero_Lev.csv"
+dest_files=["res://Data/FromExcel/Hero_Lev.en.translation", "res://Data/FromExcel/Hero_Lev.Lev.translation", "res://Data/FromExcel/Hero_Lev.Exp.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

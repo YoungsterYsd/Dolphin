@@ -1,98 +1,139 @@
-## 装备组件。
+## 装备组件（Phase 1 Fragment 架构版本）。
 ##
-## 维护三个槽位（武器/防具/饰品）。装备时立即修改 ASC 属性 + 授予 Ability；
-## 卸下时反向改回属性 + 撤销 Ability。
+## 维护槽位 → ItemInstance 映射（[member equipped]）。
+## 装备/卸下 = 词条 GE 应用/撤销 + 触发所有 fragment 的 on_equipped/on_unequipped 钩子。
 ##
-## 因 GE 当前无"infinite duration"概念，M5 直接 apply Modifier 改属性,
-## 卸下时构造一个反向 modifier apply 一次。
+## **关键不变性**：词条已在 InventoryComponent.add_by_id 时滚定（[code]instance.stat_tags["affix_mods"][/code]），
+## 本组件 equip/unequip **永不滚字**——只读取 stat_tags rebuild GameplayEffect。
+##
+## R-ARCH-04：跨模块状态变更走 ASC API + EventBus；不反向 get_node 兄弟组件。
 class_name EquipmentComponent
 extends Node
 
-## 当前装备：slot(int) → EquipmentDefinition
+const STAT_KEY_AFFIX_MODS: StringName = &"affix_mods"
+
+## 当前装备：[code]Slot(int) → ItemInstance[/code]。
+## Slot 取值见 [Fragment_Equip.Slot]。
 var equipped: Dictionary = {}
 
-var owner_character: Node = null
+## 持有者角色（强类型；R-CHAR-01）。
+var owner_character: BaseCharacter = null
 
 
 func _ready() -> void:
-	owner_character = get_parent()
+	owner_character = get_parent() as BaseCharacter
+	assert(owner_character != null,
+		"EquipmentComponent: parent must be BaseCharacter, got %s" % str(get_parent()))
 
 
-## 装备一件道具。返回是否成功（同槽位已有装备会先卸下并放回背包）。
-func equip(item: EquipmentDefinition) -> bool:
-	if item == null or owner_character == null:
-		return false
+# ─────────────────────────────────────────────────────────────
+# 装备 / 卸下
+# ─────────────────────────────────────────────────────────────
+
+
+## 装备一件 instance（词条已固定，不滚字）。
+##
+## 同槽位已有装备 → 先 unequip 放回背包再装新。
+## 返回是否成功。
+func equip(instance: ItemInstance) -> bool:
+	assert(instance != null, "EquipmentComponent.equip: null instance")
+	var def: ItemDefinition = instance.get_def()
+	var fe: Fragment_Equip = def.find_fragment(Fragment_Equip) as Fragment_Equip
+	assert(fe != null, "EquipmentComponent.equip: item %d has no Fragment_Equip" % def.item_id)
+	assert(instance.stat_tags.has(STAT_KEY_AFFIX_MODS),
+		"EquipmentComponent.equip: instance missing affix_mods (forgot to call ItemInstance.create_new?)")
+
 	# 同槽位已有 → 先 unequip 放回背包
-	if equipped.has(item.slot):
-		_unequip_internal(item.slot, true)
+	if equipped.has(fe.slot):
+		_unequip_internal(fe.slot, true)
 
-	var asc := _get_owner_asc()
-	if asc == null:
-		return false
+	# 1. 词条 GE 挂载（这块逻辑只与 Fragment_Equip 相关，保留在 EquipmentComponent）
+	_apply_affix_ge(def, instance)
 
-	# 应用 modifiers（直接 set_attr，相当于 INSTANT GE）
-	for m in item.attribute_modifiers:
-		m.apply_to(asc.attribute_set)
-	# 授予 abilities
-	for ab in item.granted_abilities:
-		if ab != null:
-			asc.grant_ability(ab)
+	# 2. 触发所有 fragment 的 on_equipped 钩子（GA/GE 自处理）
+	for f in def.fragments:
+		f.on_equipped(owner_character, instance)
 
-	equipped[item.slot] = item
-	EventBus.equipment_changed.emit(owner_character, item.slot)
-	GameLogger.info("Items", "[%s] equipped %s (slot=%d)" % [owner_character.name, item.get_display_name(), item.slot])
+	equipped[fe.slot] = instance
+	EventBus.equipment_changed.emit(owner_character, fe.slot)
+	GameLogger.info("Items", "[%s] equipped %s (slot=%d)" % [
+		owner_character.name, def.get_display_name(), fe.slot,
+	])
 	return true
 
 
-## 卸下指定槽位装备，返回是否成功（成功则装备被放回背包）。
+## 卸下指定槽位装备，instance 放回背包（仍带原词条）。
 func unequip(slot: int) -> bool:
 	return _unequip_internal(slot, true)
 
 
-## 内部卸下逻辑。put_back_to_inventory=false 时仅卸下不放回（同槽替换时用）。
+# ─────────────────────────────────────────────────────────────
+# 查询
+# ─────────────────────────────────────────────────────────────
+
+
+func get_equipped(slot: int) -> ItemInstance:
+	return equipped.get(slot, null)
+
+
+func is_slot_occupied(slot: int) -> bool:
+	return equipped.has(slot)
+
+
+# ─────────────────────────────────────────────────────────────
+# 内部
+# ─────────────────────────────────────────────────────────────
+
+
 func _unequip_internal(slot: int, put_back_to_inventory: bool) -> bool:
 	if not equipped.has(slot):
 		return false
-	var item: EquipmentDefinition = equipped[slot]
-	var asc := _get_owner_asc()
+	var instance: ItemInstance = equipped[slot]
+	var def: ItemDefinition = instance.get_def()
+	var asc: AbilitySystemComponent = owner_character.asc
+
+	# 1. 撤销词条 GE（按 equip_tag 反查 active_effect）
 	if asc != null:
-		# 反向 modifiers
-		for m in item.attribute_modifiers:
-			_apply_inverse_modifier(asc.attribute_set, m)
-		# 撤销 abilities
-		for ab in item.granted_abilities:
-			if ab != null:
-				asc.revoke_ability(ab.ability_id)
+		var equip_tag: StringName = _make_equip_tag(def.item_id)
+		asc.remove_effects_with_granted_tag(equip_tag)
+
+	# 2. 触发所有 fragment 的 on_unequipped 钩子（GA/GE 自撤销）
+	for f in def.fragments:
+		f.on_unequipped(owner_character, instance)
 
 	equipped.erase(slot)
 	EventBus.equipment_changed.emit(owner_character, slot)
-	GameLogger.info("Items", "[%s] unequipped %s" % [owner_character.name, item.get_display_name()])
+	GameLogger.info("Items", "[%s] unequipped %s (slot=%d)" % [
+		owner_character.name, def.get_display_name(), slot,
+	])
 
-	# 放回背包
+	# 3. 放回背包（instance 仍带原词条）
 	if put_back_to_inventory:
-		var inv: InventoryComponent = owner_character.get_node_or_null("InventoryComponent") as InventoryComponent
+		var inv: InventoryComponent = NodeFinder.find_first_child_of_type(owner_character, InventoryComponent) as InventoryComponent
 		if inv != null:
-			inv.add(item, 1)
+			inv.add_instance(instance)
 	return true
 
 
-## 反向 apply 一个 Modifier。
-func _apply_inverse_modifier(attrs: AttributeSet, m: AttributeModifier) -> void:
-	match m.op:
-		AttributeModifier.Op.ADD:
-			attrs.add_to_attr(m.attribute, -m.magnitude)
-		AttributeModifier.Op.MULTIPLY:
-			# 反向乘法：除以 magnitude（避免除 0）
-			if absf(m.magnitude) > 0.0001:
-				attrs.set_attr(m.attribute, attrs.get_attr(m.attribute) / m.magnitude)
-		AttributeModifier.Op.OVERRIDE:
-			# OVERRIDE 无法反推；warning 提示
-			GameLogger.warn("Items", "OVERRIDE modifier on equipment cannot be reversed: %s" % m.attribute)
+## 构造 Duration=Infinite 临时 GE 挂载词条加成。
+func _apply_affix_ge(def: ItemDefinition, instance: ItemInstance) -> void:
+	var asc: AbilitySystemComponent = owner_character.asc
+	if asc == null:
+		GameLogger.warn("Items", "EquipmentComponent: %s has no asc" % owner_character.name)
+		return
+	var mods_dicts: Array = instance.stat_tags.get(STAT_KEY_AFFIX_MODS, [])
+	if mods_dicts.is_empty():
+		return
+	var mods: Array[AttributeModifier] = AffixRoller.dicts_to_modifiers(mods_dicts)
+	var ge := GameplayEffect.new()
+	ge.effect_type = GameplayEffect.EffectType.DURATION
+	ge.duration = -1.0  # 无限（卸下时通过 granted_tag 反查并撤销）
+	ge.modifiers = mods
+	ge.granted_tags = [_make_equip_tag(def.item_id)]
+	ge.display_name = "EquipAffix_%d" % def.item_id
+	asc.apply_effect_to(asc, ge, owner_character)
 
 
-func _get_owner_asc() -> AbilitySystemComponent:
-	if owner_character == null:
-		return null
-	if "asc" in owner_character:
-		return owner_character.asc as AbilitySystemComponent
-	return owner_character.get_node_or_null("AbilitySystemComponent") as AbilitySystemComponent
+## equip_tag 命名约定：[code]equip.<item_id>[/code]
+static func _make_equip_tag(item_id: int) -> StringName:
+	return StringName("equip.%d" % item_id)

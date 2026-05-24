@@ -1,49 +1,55 @@
-## 移动组件（2D 实现）。
+## 移动组件（3D，XZ 平面）。
 ##
-## R-CHAR-01：对外 API 使用 Vector3（XY 表示平面方向，Z 暂忽略），
-## 2D 内部投影到 [member CharacterBody2D.velocity]。3D 实现日后另起子类，接口一致。
+## R-CHAR-01：对外 API 使用 Vector3。平面 = XZ（Godot 3D 业界标准 Y 轴向上）。
+## input_dir.x → 世界 X 轴；input_dir.z → 世界 Z 轴（向前 = -z）。
 class_name MoveComponent
 extends Node
 
-@export var max_speed: float = 200.0
-@export var acceleration: float = 1600.0
-@export var friction: float = 1600.0
+@export var max_speed: float = 5.0  # 米/秒
+@export var acceleration: float = 40.0  # 米/秒²
+@export var friction: float = 40.0
 
-## 父节点（必须为 [CharacterBody2D]）。
-var _body: CharacterBody2D
+## 父节点（必须为 [CharacterBody3D]）。
+var _body: CharacterBody3D = null
 
-## 当前归一化输入方向（Vector3.x/y 用作平面方向）。
+## 当前归一化输入方向（XZ 平面，Y=0）。
 var _input_dir: Vector3 = Vector3.ZERO
 
 
 func _ready() -> void:
 	var p := get_parent()
-	if p is CharacterBody2D:
-		_body = p
-	else:
-		GameLogger.error("Character", "MoveComponent expects parent CharacterBody2D, got %s" % p)
+	# 配置错误直接崩，便于定位
+	assert(p is CharacterBody3D,
+		"MoveComponent expects parent CharacterBody3D, got %s" % str(p))
+	_body = p as CharacterBody3D
 
 
-## 设置移动输入方向。dir 任意长度，内部会归一化。
-## R-CHAR-01：保持 Vector3 接口，3D 接入时无需改外部调用方。
+## 设置移动输入方向（仅 XZ 分量有效，Y 分量被忽略）。
+## 非零向量自动归一化；零向量保持零。
 func set_input_dir(dir: Vector3) -> void:
-	_input_dir = dir if dir == Vector3.ZERO else dir.normalized()
+	var planar := Vector3(dir.x, 0.0, dir.z)
+	_input_dir = planar if planar == Vector3.ZERO else planar.normalized()
 
 
 ## 物理帧调用，由父节点的 _physics_process 转发。
 func tick(delta: float) -> void:
 	if _body == null:
 		return
-	var target_2d := Vector2(_input_dir.x, _input_dir.y) * max_speed
-	if target_2d == Vector2.ZERO:
-		_body.velocity = _body.velocity.move_toward(Vector2.ZERO, friction * delta)
+	# 当前 velocity 仅看 XZ 分量（Y 分量保留给重力 / 跳跃，本里程碑 Y=0）
+	var current: Vector3 = _body.velocity
+	current.y = 0.0
+	var target: Vector3 = _input_dir * max_speed
+	var next: Vector3
+	if target == Vector3.ZERO:
+		next = current.move_toward(Vector3.ZERO, friction * delta)
 	else:
-		_body.velocity = _body.velocity.move_toward(target_2d, acceleration * delta)
+		next = current.move_toward(target, acceleration * delta)
+	_body.velocity = Vector3(next.x, 0.0, next.z)
 	_body.move_and_slide()
 
 
-## 当前速度（Vector3 形式，Z=0）。
+## 当前速度（Vector3）。
 func get_velocity() -> Vector3:
 	if _body == null:
 		return Vector3.ZERO
-	return Vector3(_body.velocity.x, _body.velocity.y, 0.0)
+	return _body.velocity

@@ -9,10 +9,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -180.0
-offset_top = -120.0
-offset_right = 180.0
-offset_bottom = 120.0
+offset_left = -200.0
+offset_top = -200.0
+offset_right = 200.0
+offset_bottom = 200.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_set")
@@ -89,6 +89,71 @@ size_flags_horizontal = 3
 max_value = 1.0
 step = 0.05
 value = 1.0
+
+[node name="Sep1" type="HSeparator" parent="Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="HudOpacityRow" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/Margin/VBox/HudOpacityRow"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "HUD 透明度"
+
+[node name="Slider" type="HSlider" parent="Panel/Margin/VBox/HudOpacityRow"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.5
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="DamagePopupRow" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/Margin/VBox/DamagePopupRow"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "飘字大小"
+
+[node name="Slider" type="HSlider" parent="Panel/Margin/VBox/DamagePopupRow"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.7
+max_value = 1.5
+step = 0.05
+value = 1.0
+
+[node name="HotbarKeysRow" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/Margin/VBox/HotbarKeysRow"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "显示按键"
+
+[node name="Check" type="CheckBox" parent="Panel/Margin/VBox/HotbarKeysRow"]
+layout_mode = 2
+button_pressed = true
+text = "Hotbar 显示按键提示"
+
+[node name="DebugOverlayRow" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/Margin/VBox/DebugOverlayRow"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "调试显示"
+
+[node name="Check" type="CheckBox" parent="Panel/Margin/VBox/DebugOverlayRow"]
+layout_mode = 2
+text = "默认显示 Debug Overlay"
+
+[node name="Sep2" type="HSeparator" parent="Panel/Margin/VBox"]
+layout_mode = 2
 
 [node name="CloseBtn" type="Button" parent="Panel/Margin/VBox"]
 layout_mode = 2

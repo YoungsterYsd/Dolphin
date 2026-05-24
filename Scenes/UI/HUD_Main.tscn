@@ -1,0 +1,122 @@
+[gd_scene format=3 uid="uid://hud_main_root"]
+
+; ──────────────────────────────────────────────────────────────
+; HUD_Main：HUDManager.setup() 自动加载并挂到主场景。
+;
+; 节点结构（HUDManager._scan_layers / _scan_slots 严格依赖此命名）：
+;   HUD_Main (Node)
+;     ├─ L0_World          (CanvasLayer, layer=0, follow_viewport_enabled=true)
+;     ├─ L1_Game           (CanvasLayer, layer=1)
+;     │   ├─ TopLeft       (Control, anchor=左上)
+;     │   ├─ TopCenter     (Control, anchor=顶部居中)
+;     │   ├─ TopRight      (Control, anchor=右上)
+;     │   ├─ BottomLeft    (Control, anchor=左下)
+;     │   ├─ BottomCenter  (Control, anchor=底部居中)
+;     │   ├─ BottomRight   (Control, anchor=右下)
+;     │   └─ Center        (Control, anchor=屏幕中心)
+;     ├─ L2_GameMenu       (CanvasLayer, layer=2)
+;     ├─ L3_Menu           (CanvasLayer, layer=3)
+;     ├─ L4_Modal          (CanvasLayer, layer=4)
+;     ├─ L5_Notification   (CanvasLayer, layer=5)
+;     ├─ L6_Loading        (CanvasLayer, layer=6)
+;     └─ L7_Debug          (CanvasLayer, layer=99)
+;
+; 各层的 layer / visible / process_mode / follow_viewport_enabled
+; 实际由 HUDManager._apply_policies() 在 setup 时覆盖，本场景中保持默认即可。
+; ──────────────────────────────────────────────────────────────
+
+[node name="HUD_Main" type="Node"]
+
+; ===== L0 World HUD =====
+[node name="L0_World" type="CanvasLayer" parent="."]
+layer = 0
+follow_viewport_enabled = true
+
+; ===== L1 Game HUD（含 7 个 Slot）=====
+[node name="L1_Game" type="CanvasLayer" parent="."]
+layer = 1
+
+[node name="TopLeft" type="Control" parent="L1_Game"]
+anchors_preset = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+mouse_filter = 2
+
+[node name="TopCenter" type="Control" parent="L1_Game"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_top = 0.0
+anchor_right = 0.5
+anchor_bottom = 0.0
+mouse_filter = 2
+
+[node name="TopRight" type="Control" parent="L1_Game"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+grow_horizontal = 0
+mouse_filter = 2
+
+[node name="BottomLeft" type="Control" parent="L1_Game"]
+anchors_preset = 2
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="BottomCenter" type="Control" parent="L1_Game"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="BottomRight" type="Control" parent="L1_Game"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="Center" type="Control" parent="L1_Game"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+mouse_filter = 2
+
+; ===== L2~L7 =====
+[node name="L2_GameMenu" type="CanvasLayer" parent="."]
+layer = 2
+visible = false
+
+[node name="L3_Menu" type="CanvasLayer" parent="."]
+layer = 3
+visible = false
+
+[node name="L4_Modal" type="CanvasLayer" parent="."]
+layer = 4
+visible = false
+
+[node name="L5_Notification" type="CanvasLayer" parent="."]
+layer = 5
+
+[node name="L6_Loading" type="CanvasLayer" parent="."]
+layer = 6
+visible = false
+
+[node name="L7_Debug" type="CanvasLayer" parent="."]
+layer = 99
+visible = false

@@ -1,14 +1,14 @@
-## Boss 顶部血条（M5 引入，M8 升级为分层 + ghost 追条）。
+## Boss 顶部血条（分层 + ghost 追条）。
 ##
 ## 监听 EventBus.attribute_changed（boss 的 health）+ boss_phase_changed（阶段变化高亮）。
-## M8 新增：
+## 视觉：
 ##   - **主血条**（红，快速下降到当前值）
 ##   - **ghost 追条**（黄，延迟 `boss_ghost_chase_delay` 秒后以 `boss_ghost_chase_speed` HP/s 追赶）
 ##   - **分段视觉**：按 `boss_layer_step` HP 横向切分，每段画一条短分隔线
 ##
 ## 参数全部走 [HealthBarConfig]（R-DATA-02）。
 class_name BossHealthBar
-extends Control
+extends BaseWidget
 
 @export var boss: Node = null
 
@@ -16,7 +16,7 @@ extends Control
 @onready var name_label: Label = $NameLabel
 @onready var phase_label: Label = $PhaseLabel
 
-# M8：ghost 追条（代码创建，半透明叠加在主条上方）
+# ghost 追条（代码创建，半透明叠加在主条上方）
 var _ghost_bar: ProgressBar = null
 var _layer_overlay: Control = null  # 自绘分段线
 
@@ -29,6 +29,7 @@ var _ghost_delay_timer: float = 0.0  # 距离上次伤害的时间
 
 
 func _ready() -> void:
+	super._ready()
 	_pull_config()
 	_build_ghost_and_overlay()
 	# 信号无条件连接，回调内判断 boss 引用是否匹配
@@ -73,11 +74,8 @@ func bind_boss(b: Node) -> void:
 # ─────────────────────────────────────────────────────────────
 
 func _pull_config() -> void:
-	var cfg_node: Node = get_tree().root.get_node_or_null(^"ConfigCenter")
-	if cfg_node != null:
-		_cfg = cfg_node.get_health_bar_config()
-	if _cfg == null:
-		_cfg = HealthBarConfig.new()
+	# R-Core：ConfigCenter 走 class_name 强类型直访
+	_cfg = ConfigCenter.get_health_bar_config()
 
 
 func _build_ghost_and_overlay() -> void:
@@ -111,9 +109,10 @@ func _setup() -> void:
 		return
 	name_label.text = boss.name
 	var asc: AbilitySystemComponent = boss.get_node_or_null("AbilitySystemComponent") as AbilitySystemComponent
-	if asc != null and asc.attribute_set != null:
-		var max_hp: float = asc.attribute_set.get_attr(&"max_health")
-		var cur_hp: float = asc.attribute_set.get_attr(&"health")
+	# R-ASC 重构：用 ASC.get_attribute 跨 Set 查找替代 attribute_set 老接口
+	if asc != null:
+		var max_hp: float = asc.get_attribute(&"max_health", 0.0)
+		var cur_hp: float = asc.get_attribute(&"health", 0.0)
 		bar.max_value = max_hp
 		bar.value = cur_hp
 		if _ghost_bar != null:

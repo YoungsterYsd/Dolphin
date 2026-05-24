@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="InputContext" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Script/Input/InputContext.gd" id="1_ctx"]
+
+[resource]
+script = ExtResource("1_ctx")
+context_id = &"Dialogue"
+explicit_allowed = [&"combat_interact"]
+explicit_blocked = [
+	&"combat_attack",
+	&"combat_skill_q", &"combat_skill_w", &"combat_skill_e", &"combat_skill_r",
+	&"combat_ultimate", &"combat_dodge", &"combat_block", &"combat_swap", &"combat_consumable",
+	&"ui_panel_build",
+]
+allow_all = false
+display_name = "对话中（仅 combat_interact 推进；ui_accept/ui_cancel 由 DialogueWidget 自接）"

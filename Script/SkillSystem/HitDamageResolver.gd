@@ -1,12 +1,12 @@
-## 命中伤害结算器（静态）。
+## 命中伤害结算器（薄壳）。
 ##
-## 由命中订阅方调用：从 caster.set_meta 取当前 skill_id + damage_node_index，
-## 查 [SkillDamageTable] 得到 [DamageNode]，按公式计算最终伤害，构造一份临时的 INSTANT GE 应用到 target ASC。
+## ⚠️ D2.D 改造：本类从"1 步公式自己算"改为"转发到 [DamagePipeline] 13 步公式"。
+## - 仍保留作为 [HitboxComponent.hit_landed] 的统一入口（meta 取 skill_id + damage_node_index 等保留逻辑）
+## - 实际伤害计算走 [DamagePipeline.compute_and_apply]，13 步全跑（暴击/防穿/格挡/吸血/破韧 全部生效）
+## - 把 [DamageNode.damage_multiplier] 直接当 [param base_damage] 透传给 DamagePipeline，
+##   DamagePipeline 内部用 `dmg = max(atk, 1) × base_damage` 起点公式
 ##
-## 公式（M7 默认线性，M8 可扩展暴击 / 护甲减免）：
-##   final_damage = caster.attack * damage_node.damage_multiplier + damage_node.extra_flat_damage
-##
-## 同一次激活的命中去重：依赖 caster.set_meta(EventTrackHandler.META_RESOLVED_TARGETS) 列表。
+## 同一次激活去重：依赖 caster.set_meta(EventTrackHandler.META_RESOLVED_TARGETS) 列表。
 class_name HitDamageResolver
 extends RefCounted
 
@@ -41,53 +41,45 @@ static func resolve_hit(caster_asc: AbilitySystemComponent, target_hurtbox: Hurt
 		return false
 	var damage_index: int = int(caster.get_meta(EventTrackHandler.META_DAMAGE_NODE_INDEX, 0))
 
-	# 通过 ConfigCenter 查 SkillDamageTable
-	var cfg: Node = caster.get_tree().root.get_node_or_null(^"ConfigCenter")
-	if cfg == null:
-		GameLogger.warn("Skill", "HitDamageResolver: ConfigCenter not found")
-		return false
-	var damage_node: DamageNode = cfg.get_damage_node(skill_id, damage_index)
+	# R-Core：ConfigCenter 走 class_name 强类型直访
+	var damage_node: DamageNode = ConfigCenter.get_damage_node(skill_id, damage_index)
 	if damage_node == null:
 		GameLogger.warn("Skill", "HitDamageResolver: no DamageNode for skill=%s idx=%d" % [skill_id, damage_index])
 		return false
 
-	# 找目标 ASC
-	var target_asc: AbilitySystemComponent = _find_asc(target_node)
-	if target_asc == null:
-		GameLogger.warn("Skill", "HitDamageResolver: target %s has no ASC" % target_node.name)
+	# === D2.D 改造：所有伤害走 DamagePipeline 13 步 ===
+	# damage_multiplier 直接当 base_damage 透传（语义即技能倍率，不再乘全局换算系数）
+	var base_damage: float = damage_node.damage_multiplier
+	if base_damage <= 0.0:
+		GameLogger.info("Skill", "HitDamageResolver: damage_multiplier <= 0, skip apply")
 		return false
 
-	# 计算伤害值
-	var caster_attack: float = 0.0
-	if caster_asc.attribute_set != null:
-		caster_attack = caster_asc.attribute_set.get_attr(&"attack")
-	var raw_damage: float = caster_attack * damage_node.damage_multiplier + damage_node.extra_flat_damage
-	if raw_damage <= 0.0:
-		GameLogger.info("Skill", "HitDamageResolver: damage <= 0, skip apply")
-		return false
+	var damage_tags: Array[StringName] = []
+	if damage_node.damage_type != &"":
+		damage_tags.append(damage_node.damage_type)
 
-	# 构造临时 INSTANT GE：health -= raw_damage
-	var ge: GameplayEffect = GameplayEffect.new()
-	ge.effect_type = GameplayEffect.EffectType.INSTANT
-	ge.display_name = "DynamicDamage_%s_%d" % [skill_id, damage_index]
-	var modifier: AttributeModifier = AttributeModifier.new()
-	modifier.attribute = &"health"
-	modifier.op = AttributeModifier.Op.ADD
-	modifier.magnitude = -raw_damage
-	ge.modifiers = [modifier]
+	var result: Dictionary = DamagePipeline.compute_and_apply(
+		caster, target_node, base_damage, damage_tags, false, false, damage_node.poise_damage, damage_node
+	)
 
-	caster_asc.apply_effect_to(target_asc, ge, caster)
-
-	# 附加 GE（如减速 / 流血）
+	# 附加 GE（如减速 / 流血）—— 完美格挡免伤场景仍正常附加（02 文档未明确，按 Dolphin 现行逻辑）
 	for extra_ge in damage_node.apply_effects:
 		if extra_ge != null:
-			caster_asc.apply_effect_to(target_asc, extra_ge, caster)
+			var target_asc: AbilitySystemComponent = _find_asc(target_node)
+			if target_asc != null:
+				caster_asc.apply_effect_to(target_asc, extra_ge, caster)
 
-	# 广播伤害事件（给飘字、HUD 等订阅）
-	EventBus.damage_dealt.emit(caster, target_node, raw_damage, damage_node.damage_type)
-	# M8：扩展版伤害事件（带 DamageNode + 暴击标记；M10 GAS 扩展后 is_crit 才会真正生效）
-	EventBus.damage_dealt_v2.emit(caster, target_node, raw_damage, damage_node, false)
-	GameLogger.info("Skill", "HIT %s -> %s damage=%.1f (skill=%s idx=%d)" % [caster.name, target_node.name, raw_damage, skill_id, damage_index])
+	# 触发本地受击信号 → 驱动 HitFlash / AI hit 状态 / 击退等订阅方
+	# 注：result.dealt 已是 13 步管线的最终值（含格挡减伤等）；完美格挡 dealt=0 时本回调仍调用，让本地表现层（如 HitFlash）正确反应
+	target_hurtbox.take_damage(float(result.dealt), caster)
+
+	# 老 EventBus.damage_dealt 信号（M5 期表现层兼容）
+	EventBus.damage_dealt.emit(caster, target_node, float(result.dealt), damage_node.damage_type)
+
+	# 注：damage_dealt_v2 信号已由 DamagePipeline 第 13 步广播，此处不再重复
+	GameLogger.info("Skill", "HIT %s -> %s skill=%s idx=%d dealt=%.1f crit=%s pb=%s" % [
+		caster.name, target_node.name, skill_id, damage_index, result.dealt, result.is_crit, result.is_perfect_block,
+	])
 	return true
 
 
@@ -95,6 +87,11 @@ static func resolve_hit(caster_asc: AbilitySystemComponent, target_hurtbox: Hurt
 static func _find_asc(node: Node) -> AbilitySystemComponent:
 	if node == null:
 		return null
+	# 优先走 BaseCharacter.asc 字段
+	if &"asc" in node:
+		var a = node.get(&"asc")
+		if a is AbilitySystemComponent:
+			return a as AbilitySystemComponent
 	var direct: Node = node.get_node_or_null(^"AbilitySystemComponent")
 	if direct is AbilitySystemComponent:
 		return direct

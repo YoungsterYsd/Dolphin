@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://57aqykdg8d6e"
+
+[deps]
+
+files=["res://Data/FromExcel/Frag_GA.en.translation", "res://Data/FromExcel/Frag_GA.GA.translation"]
+
+source_file="res://Data/FromExcel/Frag_GA.csv"
+dest_files=["res://Data/FromExcel/Frag_GA.en.translation", "res://Data/FromExcel/Frag_GA.GA.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

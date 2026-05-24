@@ -1,0 +1,17 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://Script/GameFramework/LevelDef.gd" id="1_lvl"]
+[ext_resource type="PackedScene" path="res://Scenes/Levels/TestArena.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_lvl")
+level_id = &"test_arena"
+display_name = "测试关卡"
+scene = ExtResource("2_scene")
+bgm = null
+is_boss_room = false
+spawn_marker_id = &"main_entrance"
+loading_tip = "提示：与村长交谈接受任务，去东边击杀史莱姆"
+fade_out_seconds = 0.35
+fade_in_seconds = 0.35
+fade_color = Color(0, 0, 0, 1)

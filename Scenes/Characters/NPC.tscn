@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://b7p3x9k1ydolp_npc"]
+
+[ext_resource type="Script" path="res://Script/Character/NPCActor.gd" id="1_npc"]
+[ext_resource type="Script" path="res://Script/Character/Components/NPCQuestMarker.gd" id="2_marker"]
+
+[sub_resource type="SphereShape3D" id="InteractShape"]
+radius = 2.5
+
+[sub_resource type="CylinderMesh" id="BodyMesh"]
+top_radius = 0.25
+bottom_radius = 0.35
+height = 1.6
+
+[sub_resource type="StandardMaterial3D" id="BodyMat"]
+albedo_color = Color(0.45, 0.65, 0.85, 1)
+
+[sub_resource type="SphereMesh" id="HeadMesh"]
+radius = 0.22
+height = 0.44
+
+[sub_resource type="StandardMaterial3D" id="HeadMat"]
+albedo_color = Color(0.95, 0.85, 0.7, 1)
+
+[node name="NPC" type="Node3D"]
+script = ExtResource("1_npc")
+display_name = "NPC"
+prompt_text = "[G] 对话"
+
+[node name="Visual" type="Node3D" parent="."]
+
+[node name="Body" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+mesh = SubResource("BodyMesh")
+surface_material_override/0 = SubResource("BodyMat")
+
+[node name="Head" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.85, 0)
+mesh = SubResource("HeadMesh")
+surface_material_override/0 = SubResource("HeadMat")
+
+[node name="InteractRange" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractRange"]
+shape = SubResource("InteractShape")
+
+[node name="QuestMarker" type="Label3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.55, 0)
+billboard = 1
+no_depth_test = true
+fixed_size = true
+pixel_size = 0.0035
+text = "?"
+font_size = 96
+outline_size = 12
+modulate = Color(0.55, 0.85, 1, 1)
+outline_modulate = Color(0, 0, 0, 0.85)
+render_priority = 10
+visible = false
+script = ExtResource("2_marker")

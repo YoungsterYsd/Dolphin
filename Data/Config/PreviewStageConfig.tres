@@ -4,4 +4,4 @@
 
 [resource]
 script = ExtResource("1_cfg")
-last_sprite_frames_path = "res://Data/Animations/SpriteFrames_Player.tres"
+last_sprite_frames_path = "res://Data/Animations/Slime.tres"

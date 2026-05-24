@@ -1,0 +1,3 @@
+﻿id,sub_id,Name,Diapack_ID,Scene,Talk_Show
+1,,村长,1,res://Content/NPC/Elder.tscn,res://Content/UI/Portraits/Elder.png
+2,,铁匠,2,res://Content/NPC/Smith.tscn,res://Content/UI/Portraits/Smith.png

@@ -42,22 +42,21 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -120.0
+offset_top = -140.0
 grow_horizontal = 2
 grow_vertical = 0
 mouse_filter = 2
 
-[node name="StatRow" type="HBoxContainer" parent="Panel"]
+[node name="VBox" type="VBoxContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="StatRow" type="HBoxContainer" parent="Panel/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 16
-offset_left = 16.0
-offset_top = 12.0
-offset_right = -16.0
-offset_bottom = 44.0
-anchors_preset = 0
 mouse_filter = 2
 
-[node name="HPBar" type="ProgressBar" parent="Panel/StatRow"]
+[node name="HPBar" type="ProgressBar" parent="Panel/VBox/StatRow"]
 custom_minimum_size = Vector2(280, 24)
 layout_mode = 2
 max_value = 100.0
@@ -65,7 +64,7 @@ value = 100.0
 show_percentage = false
 mouse_filter = 2
 
-[node name="HPLabel" type="Label" parent="Panel/StatRow/HPBar"]
+[node name="HPLabel" type="Label" parent="Panel/VBox/StatRow/HPBar"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -83,66 +82,32 @@ horizontal_alignment = 1
 vertical_alignment = 1
 mouse_filter = 2
 
-[node name="MPBar" type="ProgressBar" parent="Panel/StatRow"]
-custom_minimum_size = Vector2(220, 24)
+[node name="SlotRow" type="HBoxContainer" parent="Panel/VBox"]
 layout_mode = 2
-max_value = 50.0
-value = 50.0
-show_percentage = false
+theme_override_constants/separation = 10
 mouse_filter = 2
 
-[node name="MPLabel" type="Label" parent="Panel/StatRow/MPBar"]
+[node name="SlotA" type="Panel" parent="Panel/VBox/SlotRow"]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="KeyLabel" type="Label" parent="Panel/VBox/SlotRow/SlotA"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -40.0
-offset_top = -10.0
-offset_right = 40.0
-offset_bottom = 10.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "50 / 50"
-horizontal_alignment = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -18.0
+offset_right = 56.0
+offset_bottom = -2.0
+grow_vertical = 0
+text = "A"
+horizontal_alignment = 0
 vertical_alignment = 1
 mouse_filter = 2
 
-[node name="SlotRow" type="HBoxContainer" parent="Panel"]
-layout_mode = 2
-theme_override_constants/separation = 12
-offset_left = 16.0
-offset_top = 56.0
-offset_right = -16.0
-offset_bottom = 108.0
-anchors_preset = 0
-mouse_filter = 2
-
-[node name="Slot1" type="Panel" parent="Panel/SlotRow"]
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 2
-mouse_filter = 2
-
-[node name="Label" type="Label" parent="Panel/SlotRow/Slot1"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -10.0
-offset_top = -10.0
-offset_right = 10.0
-offset_bottom = 10.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "1"
-horizontal_alignment = 1
-vertical_alignment = 1
-mouse_filter = 2
-
-[node name="CDOverlay" type="ColorRect" parent="Panel/SlotRow/Slot1"]
+[node name="CDOverlay" type="ColorRect" parent="Panel/VBox/SlotRow/SlotA"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -152,13 +117,17 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0)
 
-[node name="CDLabel" type="Label" parent="Panel/SlotRow/Slot1"]
+[node name="CDLabel" type="Label" parent="Panel/VBox/SlotRow/SlotA"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -12.0
+offset_right = 20.0
+offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
 text = ""
@@ -166,30 +135,27 @@ horizontal_alignment = 1
 vertical_alignment = 1
 mouse_filter = 2
 
-[node name="Slot2" type="Panel" parent="Panel/SlotRow"]
-custom_minimum_size = Vector2(48, 48)
+[node name="SlotQ" type="Panel" parent="Panel/VBox/SlotRow"]
+custom_minimum_size = Vector2(56, 56)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Label" type="Label" parent="Panel/SlotRow/Slot2"]
+[node name="KeyLabel" type="Label" parent="Panel/VBox/SlotRow/SlotQ"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -10.0
-offset_top = -10.0
-offset_right = 10.0
-offset_bottom = 10.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "2"
-horizontal_alignment = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -18.0
+offset_right = 56.0
+offset_bottom = -2.0
+grow_vertical = 0
+text = "Q"
+horizontal_alignment = 0
 vertical_alignment = 1
 mouse_filter = 2
 
-[node name="CDOverlay" type="ColorRect" parent="Panel/SlotRow/Slot2"]
+[node name="CDOverlay" type="ColorRect" parent="Panel/VBox/SlotRow/SlotQ"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -199,13 +165,209 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.6)
 
-[node name="CDLabel" type="Label" parent="Panel/SlotRow/Slot2"]
+[node name="CDLabel" type="Label" parent="Panel/VBox/SlotRow/SlotQ"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -12.0
+offset_right = 20.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "—"
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+
+[node name="SlotW" type="Panel" parent="Panel/VBox/SlotRow"]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="KeyLabel" type="Label" parent="Panel/VBox/SlotRow/SlotW"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -18.0
+offset_right = 56.0
+offset_bottom = -2.0
+grow_vertical = 0
+text = "W"
+horizontal_alignment = 0
+vertical_alignment = 1
+mouse_filter = 2
+
+[node name="CDOverlay" type="ColorRect" parent="Panel/VBox/SlotRow/SlotW"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="CDLabel" type="Label" parent="Panel/VBox/SlotRow/SlotW"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -12.0
+offset_right = 20.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "—"
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+
+[node name="SlotE" type="Panel" parent="Panel/VBox/SlotRow"]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="KeyLabel" type="Label" parent="Panel/VBox/SlotRow/SlotE"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -18.0
+offset_right = 56.0
+offset_bottom = -2.0
+grow_vertical = 0
+text = "E"
+horizontal_alignment = 0
+vertical_alignment = 1
+mouse_filter = 2
+
+[node name="CDOverlay" type="ColorRect" parent="Panel/VBox/SlotRow/SlotE"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="CDLabel" type="Label" parent="Panel/VBox/SlotRow/SlotE"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -12.0
+offset_right = 20.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "—"
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+
+[node name="SlotR" type="Panel" parent="Panel/VBox/SlotRow"]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="KeyLabel" type="Label" parent="Panel/VBox/SlotRow/SlotR"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -18.0
+offset_right = 56.0
+offset_bottom = -2.0
+grow_vertical = 0
+text = "R"
+horizontal_alignment = 0
+vertical_alignment = 1
+mouse_filter = 2
+
+[node name="CDOverlay" type="ColorRect" parent="Panel/VBox/SlotRow/SlotR"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="CDLabel" type="Label" parent="Panel/VBox/SlotRow/SlotR"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -12.0
+offset_right = 20.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "—"
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+
+[node name="SlotX" type="Panel" parent="Panel/VBox/SlotRow"]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="KeyLabel" type="Label" parent="Panel/VBox/SlotRow/SlotX"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -18.0
+offset_right = 56.0
+offset_bottom = -2.0
+grow_vertical = 0
+text = "X"
+horizontal_alignment = 0
+vertical_alignment = 1
+mouse_filter = 2
+
+[node name="CDOverlay" type="ColorRect" parent="Panel/VBox/SlotRow/SlotX"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="CDLabel" type="Label" parent="Panel/VBox/SlotRow/SlotX"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -12.0
+offset_right = 20.0
+offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "—"

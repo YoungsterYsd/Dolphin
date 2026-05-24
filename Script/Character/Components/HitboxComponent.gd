@@ -1,14 +1,9 @@
-## 攻击判定盒（2D）。
+## 攻击判定盒（3D）。
 ##
 ## 挂在攻击方角色下，命中目标的 [HurtboxComponent] 时通过自身信号通知所有者。
-## M1 提供基础结构：enable/disable + 命中信号；具体伤害结算在 M2 由 Ability 调用 ASC 完成。
-##
-## 关键点（M3 修复）：
-##   - enabled 切到 true 时，除了 area_entered（Godot 物理引擎仅对"刚进入"触发），
-##     还要在下一帧用 [method get_overlapping_areas] 主动检查"已在范围内"的 hurtbox，
-##     否则贴脸攻击会因为 area 已经处于重叠状态而触发不到 area_entered。
+## enabled 切到 true 时除了 area_entered，还要主动检查"已在范围内"的 hurtbox（贴脸攻击修复，与 2D 版一致）。
 class_name HitboxComponent
-extends Area2D
+extends Area3D
 
 ## 命中目标（一般为对方的 [HurtboxComponent]）。
 signal hit_landed(target: Node)
@@ -31,7 +26,7 @@ func _ready() -> void:
 	area_entered.connect(_on_area_entered)
 
 
-func _on_area_entered(area: Area2D) -> void:
+func _on_area_entered(area: Area3D) -> void:
 	if not enabled:
 		return
 	if area is HurtboxComponent:

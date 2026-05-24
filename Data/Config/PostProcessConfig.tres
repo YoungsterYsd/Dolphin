@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="PostProcessConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Script/Data/PostProcessConfig.gd" id="1_cfg"]
+
+[resource]
+script = ExtResource("1_cfg")
+dof_far_enabled = true
+dof_far_distance = 15.0
+dof_far_transition = 5.0
+dof_far_amount = 0.15
+dof_near_enabled = false
+dof_near_distance = 2.0
+dof_near_amount = 0.0
+ssao_enabled = true
+ssao_intensity = 2.0
+ssao_radius = 1.5
+ssao_power = 0.6
+bloom_enabled = true
+bloom_intensity = 0.3
+bloom_threshold = 0.8
+bloom_strength = 1.0
+tonemap_mode = 2
+tonemap_exposure = 1.0
+tonemap_white = 1.0

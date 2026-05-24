@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="PortraitsConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Script/Dialogue/PortraitsConfig.gd" id="1_portrait_cfg"]
+
+[resource]
+script = ExtResource("1_portrait_cfg")
+portrait_paths = {}

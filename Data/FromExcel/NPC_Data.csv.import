@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://db5sqqtswq1py"
+
+[deps]
+
+files=["res://Data/FromExcel/NPC_Data.en.translation", "res://Data/FromExcel/NPC_Data.Name.translation", "res://Data/FromExcel/NPC_Data.Diapack_ID.translation", "res://Data/FromExcel/NPC_Data.Scene.translation", "res://Data/FromExcel/NPC_Data.Talk.translation"]
+
+source_file="res://Data/FromExcel/NPC_Data.csv"
+dest_files=["res://Data/FromExcel/NPC_Data.en.translation", "res://Data/FromExcel/NPC_Data.Name.translation", "res://Data/FromExcel/NPC_Data.Diapack_ID.translation", "res://Data/FromExcel/NPC_Data.Scene.translation", "res://Data/FromExcel/NPC_Data.Talk.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://cyxc0ey8hsfve"
+
+[deps]
+
+files=["res://Data/FromExcel/attr_plan.sub.translation", "res://Data/FromExcel/attr_plan.Attr.translation", "res://Data/FromExcel/attr_plan.Op.translation", "res://Data/FromExcel/attr_plan.Val.translation", "res://Data/FromExcel/attr_plan.Weight.translation"]
+
+source_file="res://Data/FromExcel/attr_plan.csv"
+dest_files=["res://Data/FromExcel/attr_plan.sub.translation", "res://Data/FromExcel/attr_plan.Attr.translation", "res://Data/FromExcel/attr_plan.Op.translation", "res://Data/FromExcel/attr_plan.Val.translation", "res://Data/FromExcel/attr_plan.Weight.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

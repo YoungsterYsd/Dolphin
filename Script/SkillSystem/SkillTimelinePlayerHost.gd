@@ -33,6 +33,14 @@ func _process(delta: float) -> void:
 	for active in _actives:
 		if active == null:
 			continue
+		# 防御：caster 可能在动画/事件轨触发途中被 queue_free（例如敌人被打死）。
+		# Godot 4 freed 后引用并非 null，需用 is_instance_valid 判定。
+		# 一旦 caster 失效，立即标记 finished，让 _finalize 走清理流程，避免 _dispatch_keyframe 把
+		# freed Object 当 Node 传给 TrackHandler.handle 触发 SCRIPT ERROR。
+		if not is_instance_valid(active.caster):
+			active.mark_terminated()
+			finished_list.append(active)
+			continue
 		var to_fire: Array = active.advance(delta)
 		for item in to_fire:
 			_dispatch_keyframe(active, item)
@@ -100,6 +108,9 @@ func _dispatch_keyframe(active: ActiveTimeline, item: Dictionary) -> void:
 	var track: SkillTrack = item["track"]
 	if track == null or kf == null:
 		return
+	# 二次防御：advance 期间到 dispatch 之间也有微小窗口可能让 caster 被 free。
+	if not is_instance_valid(active.caster):
+		return
 	var kind: StringName = track.get_track_kind()
 	if kind == SkillTrack.KIND_ANIMATION and kf is AnimationKeyframe:
 		AnimationTrackHandler.handle(kf as AnimationKeyframe, active.caster)
@@ -114,15 +125,17 @@ func _finalize(active: ActiveTimeline) -> void:
 		return
 	# 结束时若 hitbox 仍开着，强制关闭（防止时间轴写漏 disable）
 	_force_disable_hitbox_if_active(active)
+	var caster_name: String = active.caster.name if is_instance_valid(active.caster) else "?"
 	GameLogger.info("Skill", "END skill=%s caster=%s handle=%d" % [
-		active.timeline.skill_id, active.caster.name if active.caster != null else "?", active.handle_id
+		active.timeline.skill_id, caster_name, active.handle_id
 	])
+	# 注意：caster 可能已 freed，但信号仍 emit 兼容下游订阅者（订阅者需自行 is_instance_valid）。
 	EventBus.skill_timeline_ended.emit(active.timeline.skill_id, active.caster, active.handle_id)
 
 
 func _force_disable_hitbox_if_active(active: ActiveTimeline) -> void:
 	var caster: Node = active.caster
-	if caster == null:
+	if not is_instance_valid(caster):
 		return
 	if caster is BaseCharacter and (caster as BaseCharacter).hitbox != null:
 		var hb: HitboxComponent = (caster as BaseCharacter).hitbox

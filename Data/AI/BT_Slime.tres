@@ -1,0 +1,52 @@
+[gd_resource type="BehaviorTree" format=3 uid="uid://c2x5xpefg6xur"]
+
+[ext_resource type="Script" uid="uid://c4spuhx063knq" path="res://Script/AI/BTTasks/BTCondition_OnEvent.gd" id="1_d8wdm"]
+[ext_resource type="Script" uid="uid://c5ru85dnluco4" path="res://Script/AI/BTTasks/BTAction_EnterPoiseBroken.gd" id="2_dgqa2"]
+[ext_resource type="Script" uid="uid://bpuqvnbrygd3t" path="res://Script/AI/BTTasks/BTCondition_DistanceToTarget.gd" id="3_8m2aq"]
+[ext_resource type="Script" uid="uid://clcgcw3826fdx" path="res://Script/AI/BTTasks/BTAction_CastAbility.gd" id="4_7qgae"]
+[ext_resource type="Script" uid="uid://b2a7heipjyakr" path="res://Script/AI/BTTasks/BTAction_Chase.gd" id="5_0duib"]
+[ext_resource type="Script" uid="uid://3gw5tnsoavh4" path="res://Script/AI/BTTasks/BTAction_Standoff.gd" id="6_h3gep"]
+
+[sub_resource type="BTCondition" id="BTCondition_wvwqe"]
+script = ExtResource("1_d8wdm")
+event_key = &"poise_broken"
+
+[sub_resource type="BTAction" id="BTAction_1f5s7"]
+script = ExtResource("2_dgqa2")
+
+[sub_resource type="BTSequence" id="BTSequence_envgw"]
+children = [SubResource("BTCondition_wvwqe"), SubResource("BTAction_1f5s7")]
+
+[sub_resource type="BTCondition" id="BTCondition_6mgsa"]
+script = ExtResource("3_8m2aq")
+max_dist = 1.4
+
+[sub_resource type="BTAction" id="BTAction_0334l"]
+script = ExtResource("4_7qgae")
+ability_id = &"enemy_basic_attack"
+
+[sub_resource type="BTSequence" id="BTSequence_rq7si"]
+children = [SubResource("BTCondition_6mgsa"), SubResource("BTAction_0334l")]
+
+[sub_resource type="BTCondition" id="BTCondition_1n578"]
+script = ExtResource("3_8m2aq")
+max_dist = 12.0
+
+[sub_resource type="BTAction" id="BTAction_tra7q"]
+script = ExtResource("5_0duib")
+stop_distance = 1.3
+timeout = 10.0
+
+[sub_resource type="BTSequence" id="BTSequence_ay4xi"]
+children = [SubResource("BTCondition_1n578"), SubResource("BTAction_tra7q")]
+
+[sub_resource type="BTAction" id="BTAction_o82w2"]
+script = ExtResource("6_h3gep")
+face_target = false
+duration = 0.3
+
+[sub_resource type="BTSelector" id="BTSelector_pw38p"]
+children = [SubResource("BTSequence_envgw"), SubResource("BTSequence_rq7si"), SubResource("BTSequence_ay4xi"), SubResource("BTAction_o82w2")]
+
+[resource]
+root_task = SubResource("BTSelector_pw38p")

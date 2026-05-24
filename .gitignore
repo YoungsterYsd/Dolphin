@@ -1,3 +1,80 @@
-# Godot 4+ specific ignores
+# ============================================================
+# Godot 4+ 引擎缓存 / 平台导出
+# ============================================================
 .godot/
+.import/
 /android/
+/ios/
+/web/
+*.translation
+!Data/FromExcel/*.translation
+# 注：Data/FromExcel/*.translation 是 excel2Config 转表生成的本地化表，需要入库；
+# 其它路径下的 *.translation 一般是 Godot 编辑器临时缓存。
+
+# Godot 导出产物
+export_presets.cfg
+*.pck
+*.zip
+build/
+dist/
+exports/
+
+# ============================================================
+# Python（转表工具 Tools/excel2Config + 配表脚本 Tools/Scripts）
+# ============================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+
+# ============================================================
+# 转表工具自测输出（excel2Config 跑测试时产生的副本，非项目数据）
+# ============================================================
+Tools/excel2Config/Data/
+Tools/excel2Config/.last_session.json
+Tools/excel2Config/_sample/
+
+# ============================================================
+# 项目临时调试文件（runtime 验证 / 日志快照 / 一次性脚本输出）
+# ============================================================
+Tools/__phase*
+Tools/_p*_log.txt
+Tools/_runtime_*.txt
+Tools/_phase*.gd
+Tools/_phase*.gd.uid
+Tools/*_err.txt
+Tools/_tmp_*
+
+# ============================================================
+# IDE / 编辑器
+# ============================================================
+.vscode/
+.idea/
+*.code-workspace
+.DS_Store
+Thumbs.db
+
+# ============================================================
+# CodeBuddy / Cursor / Claude 等 AI IDE 工作区状态
+# （.codebuddy 内含项目记忆与 agent 上下文，不要删/不要全部入库；
+#  按需选择性入库 Plans 与配置，临时缓存忽略）
+# ============================================================
+.codebuddy/cache/
+.codebuddy/teams/
+.codebuddy/automations/
+.cursor/
+.claude/
+
+# ============================================================
+# Git / OS
+# ============================================================
+*.orig
+*.bak
+*.swp
+*~

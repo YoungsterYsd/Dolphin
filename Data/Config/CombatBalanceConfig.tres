@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CombatBalanceConfig" load_steps=2 format=3 uid="uid://dm4laaud2cmbbal"]
+
+[ext_resource type="Script" path="res://Script/Data/CombatBalanceConfig.gd" id="1_cbc"]
+
+[resource]
+script = ExtResource("1_cbc")
+defense_k = 500.0
+perfect_block_buff_dmg_bonus = 0.5
+perfect_block_buff_break_bonus = 3.0
+block_durability_consume_ratio = 0.6
+block_damage_reduction = 0.4
+block_broken_stun_sec = 1.2
+break_base_ratio = 0.1
+hit_react_heavy_threshold = 4
+

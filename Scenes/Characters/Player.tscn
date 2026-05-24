@@ -1,6 +1,6 @@
-[gd_scene load_steps=14 format=3 uid="uid://c1q058ictuauu"]
+[gd_scene load_steps=19 format=3 uid="uid://c1q058ictuauu"]
 
-[ext_resource type="Texture2D" uid="uid://7quasxsaw0mt" path="res://Content/Sprites/Foxy.png" id="1_foxy"]
+[ext_resource type="SpriteFrames" path="res://Data/Animations/SpriteFrames_Player.tres" id="1_sf"]
 [ext_resource type="Script" path="res://Script/Character/PlayerCharacter.gd" id="2_pc"]
 [ext_resource type="Script" path="res://Script/Character/Components/MoveComponent.gd" id="3_move"]
 [ext_resource type="Script" path="res://Script/Character/Components/InputComponent.gd" id="4_input"]
@@ -8,98 +8,93 @@
 [ext_resource type="Script" path="res://Script/Character/Components/HitboxComponent.gd" id="6_hit"]
 [ext_resource type="Script" path="res://Script/Character/Components/HurtboxComponent.gd" id="7_hurt"]
 [ext_resource type="Script" path="res://Script/GAS/AbilitySystemComponent.gd" id="8_asc"]
-[ext_resource type="Resource" path="res://Data/Attributes/DefaultPlayerAttributes.tres" id="9_attr"]
 [ext_resource type="Resource" path="res://Data/Abilities/Ability_PlayerBasicAttack.tres" id="10_ab"]
 [ext_resource type="Script" path="res://Script/Items/InventoryComponent.gd" id="11_inv"]
 [ext_resource type="Script" path="res://Script/Items/EquipmentComponent.gd" id="12_equip"]
 [ext_resource type="Script" path="res://Script/Character/Components/HitFlashController.gd" id="13_flash"]
+[ext_resource type="Script" path="res://Script/Character/Components/EnergyComponent.gd" id="14_energy"]
+[ext_resource type="Script" path="res://Script/Character/Components/BlockComponent.gd" id="15_block"]
+[ext_resource type="Script" path="res://Script/Character/Components/VisualComponent.gd" id="16_visual"]
+[ext_resource type="Script" path="res://Script/Character/Components/InteractorComponent.gd" id="17_interact"]
+[ext_resource type="Script" path="res://Script/Input/InputController.gd" id="18_inputctrl"]
+[ext_resource type="Script" path="res://Script/Character/Components/LevelComponent.gd" id="19_lvl"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_idle1"]
-atlas = ExtResource("1_foxy")
-region = Rect2(0, 0, 33, 32)
+[sub_resource type="CapsuleShape3D" id="BodyShape"]
+radius = 0.4
+height = 1.6
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_idle2"]
-atlas = ExtResource("1_foxy")
-region = Rect2(33, 0, 33, 32)
+[sub_resource type="SphereShape3D" id="HitShape"]
+radius = 1.5
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_run1"]
-atlas = ExtResource("1_foxy")
-region = Rect2(66, 0, 33, 32)
+[sub_resource type="BoxShape3D" id="HurtShape"]
+size = Vector3(0.7, 1.6, 0.7)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_run2"]
-atlas = ExtResource("1_foxy")
-region = Rect2(99, 0, 33, 32)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_player"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_idle1")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_idle2")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 6.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_run1")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_run2")
-}],
-"loop": true,
-"name": &"run",
-"speed": 12.0
-}]
-
-[sub_resource type="RectangleShape2D" id="HurtboxShape"]
-size = Vector2(28, 28)
-
-[sub_resource type="CircleShape2D" id="HitboxShape"]
-radius = 64.0
-
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody3D"]
 script = ExtResource("2_pc")
-ability_slot_to_id = Array[StringName]([&"basic_attack", &""])
+kind = 0
+data_id = 1
 startup_ability_set = Array[Resource]([ExtResource("10_ab")])
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_player")
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+sprite_frames = ExtResource("1_sf")
 animation = &"idle"
 autoplay = "idle"
+billboard = 1
+pixel_size = 0.025
+position = Vector3(0, 0.4, 0)
+shaded = true
+alpha_cut = 1
+alpha_scissor_threshold = 0.5
+texture_filter = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BodyShape")
+position = Vector3(0, 0.8, 0)
 
 [node name="MoveComponent" type="Node" parent="."]
 script = ExtResource("3_move")
+max_speed = 5.0
+acceleration = 40.0
+friction = 40.0
+
+[node name="InputController" type="Node" parent="."]
+script = ExtResource("18_inputctrl")
 
 [node name="InputComponent" type="Node" parent="."]
 script = ExtResource("4_input")
+ability_slot_to_id = Array[StringName]([&"basic_attack", &"", &"", &"", &"", &"", &""])
 
 [node name="AnimationComponent" type="Node" parent="."]
 script = ExtResource("5_anim")
 
-[node name="HitboxComponent" type="Area2D" parent="."]
+[node name="VisualComponent" type="Node" parent="."]
+script = ExtResource("16_visual")
+sprite_ground_offset = 0.4
+
+[node name="InteractorComponent" type="Node" parent="."]
+script = ExtResource("17_interact")
+
+[node name="HitboxComponent" type="Area3D" parent="."]
 collision_layer = 4
 collision_mask = 8
 script = ExtResource("6_hit")
 enabled = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
-shape = SubResource("HitboxShape")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent"]
+shape = SubResource("HitShape")
+position = Vector3(0, 1.0, 0)
 
-[node name="HurtboxComponent" type="Area2D" parent="."]
+[node name="HurtboxComponent" type="Area3D" parent="."]
 collision_layer = 2
 collision_mask = 16
 script = ExtResource("7_hurt")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
-shape = SubResource("HurtboxShape")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtboxComponent"]
+shape = SubResource("HurtShape")
+position = Vector3(0, 0.8, 0)
 
 [node name="AbilitySystemComponent" type="Node" parent="."]
 script = ExtResource("8_asc")
-attribute_set = ExtResource("9_attr")
 
 [node name="InventoryComponent" type="Node" parent="."]
 script = ExtResource("11_inv")
@@ -110,3 +105,13 @@ script = ExtResource("12_equip")
 
 [node name="HitFlashController" type="Node" parent="."]
 script = ExtResource("13_flash")
+
+[node name="EnergyComponent" type="Node" parent="."]
+script = ExtResource("14_energy")
+switch_energy_max = 50.0
+
+[node name="BlockComponent" type="Node" parent="."]
+script = ExtResource("15_block")
+
+[node name="LevelComponent" type="Node" parent="."]
+script = ExtResource("19_lvl")

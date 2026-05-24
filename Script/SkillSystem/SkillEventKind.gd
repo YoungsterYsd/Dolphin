@@ -1,5 +1,5 @@
 @tool
-## 技能事件 Kind 常量集合（M7 统一来源）。
+## 技能事件 Kind 常量集合。
 ##
 ## 所有 [EventKeyframe.kind] 字段必须使用这里的常量，禁止散落字符串字面量（R-DATA-02）。
 ## 由 [SkillTimelinePlayerHost] 在事件触发时按 kind 分派路由。
